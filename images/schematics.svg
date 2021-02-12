@@ -14,7 +14,10 @@
    version="1.1"
    id="svg8"
    inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"
-   sodipodi:docname="schematics.svg">
+   sodipodi:docname="schematics.svg"
+   inkscape:export-filename="/media/nas_milo/Files/Arduino/LEDCircleClock/images/schematics.png"
+   inkscape:export-xdpi="138.97"
+   inkscape:export-ydpi="138.97">
   <defs
      id="defs2" />
   <sodipodi:namedview
@@ -22,7 +25,7 @@
      pagecolor="#ffffff"
      bordercolor="#666666"
      borderopacity="1.0"
-     inkscape:pageopacity="0.0"
+     inkscape:pageopacity="1"
      inkscape:pageshadow="2"
      inkscape:zoom="0.82314815"
      inkscape:cx="355.47027"
