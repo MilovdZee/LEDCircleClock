@@ -11,7 +11,7 @@ I designed the case in Blender and the files can be found in this project. Toget
 The STL for the front with dividers is in one STL file. Make sure to split it in two materials. One semi transparent first 2mm and the rest an opaque color.
 
 # 3D printed case
-![3D printed grid](https://github.com/MilovdZee/LEDCircleClock/blob/main/images/LEDRingGrid.png)
+<img src="https://raw.githubusercontent.com/MilovdZee/LEDCircleClock/main/images/LEDRingGrid.png" width=300/>
 
 # LED ring
-![241 LED Ring](https://github.com/MilovdZee/LEDCircleClock/blob/main/images/241LEDring.jpg)
+<img src="https://raw.githubusercontent.com/MilovdZee/LEDCircleClock/main/images/241LEDring.jpg" width=300/>
