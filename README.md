@@ -9,3 +9,6 @@ A clock with 241 RGB LEDs
 # Case
 I designed the case in Blender and the files can be found in this project. Together with the STL files.
 The STL for the front with dividers is in one STL file. Make sure to split it in two materials. One semi transparent first 2mm and the rest an opaque color.
+
+# LED ring
+![241 LED Ring](https://github.com/MilovdZee/LEDCircleClock/blob/main/images/241LEDring.jpg)
