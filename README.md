@@ -24,10 +24,10 @@ The cable hole was a bit of an afterthought. Originally it was intended to have 
 I printed the case in PETG because this seems to be the only type that has transaparent filament. It took about 26 hours for the grid and front panel and another 5 hours for the back. Electronics holder and cable hole were much quicker.
 I like to print in .15 mm resolution so this is also a reason why it took that long.
 
-<img src="https://raw.githubusercontent.com/MilovdZee/LEDCircleClock/main/images/LEDRingGrid.png" width=300/>
+<img src="https://raw.githubusercontent.com/MilovdZee/LEDCircleClock/main/images/LEDRingGrid.png" height=300/> <img src="https://raw.githubusercontent.com/MilovdZee/LEDCircleClock/main/images/LEDRingBack.png" height=300/>
 
 ## LED ring
-<img src="https://raw.githubusercontent.com/MilovdZee/LEDCircleClock/main/images/241LEDring.jpg" width=300/>
+<img src="https://raw.githubusercontent.com/MilovdZee/LEDCircleClock/main/images/241LEDring.jpg" height=300/>
 
 # Software
 The software is written for the Arduino IDE. 
