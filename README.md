@@ -3,7 +3,7 @@ A clock with 241 RGB LEDs.
 
 The clock shows the hands in diferent colors on the grid of LEDs. To make it more beautiful hands are dealiased. The brightness of the LED is calculated from the distance to the virtual pixel.
 
-<img src="https://raw.githubusercontent.com/MilovdZee/LEDCircleClock/main/images/clock.jpg" width=300/>
+<img src="https://raw.githubusercontent.com/MilovdZee/LEDCircleClock/main/images/clock.jpg" height=300/> <img src="https://raw.githubusercontent.com/MilovdZee/LEDCircleClock/main/images/LayoutVideo.gif" height=300/>
 
 # Hardware
 - esp8266 / NodeMCU
