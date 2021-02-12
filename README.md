@@ -39,5 +39,6 @@ The software is written for the Arduino IDE.
 ## Libraries
 - NeoPixelBus by Makuna
 - NTPClient
+The libraries can be installed under "Sketch -> Include Library -> Manage Libraries..."
 
 And additional board manager for the ESP8266: http://arduino.esp8266.com/stable/package_esp8266com_index.json. This must be set under "File->Preferences->Additional Boards Manager URLs".
