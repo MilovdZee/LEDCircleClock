@@ -3,10 +3,8 @@ A clock with 241 RGB LEDs
 
 # Hardware
 - esp8266
-- DC-DC converter if you like to accept multiple input voltages
-  The LED ring contains 241 LEDs and can consume up to 3.5 Amps
-- LED ring
-  Search aliexpress for "241 led ring"
+- DC-DC converter if you like to accept multiple input voltages. The LED ring contains 241 LEDs and can consume up to 3.5 Amps
+- LED ring. Search aliexpress for "241 led ring"
 
 # Case
 I designed the case in Blender and the files can be found in this project. Together with the STL files.
