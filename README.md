@@ -15,13 +15,15 @@ Filming this does not show the colors I see. It looks a lot warmer and more satu
 ## Schematics
 <img src="https://raw.githubusercontent.com/MilovdZee/LEDCircleClock/main/images/schematics.png" width=300/>
 
-## Case
+## 3D printed Case
 I designed the case in Blender and the files can be found in this project. Together with the STL files.
-The STL for the front with dividers is in one STL file. Make sure to split it in two materials. One semi transparent first 2mm and the rest an opaque color.
+The STL for the front with dividers is in one STL file. Make sure to split it in two materials. One semi transparent first 2mm and the rest an opaque color. Also make sure to print the front first layer in a spiral. This removed the step of the print head to the next ring.
 
 The cable hole was a bit of an afterthought. Originally it was intended to have an USB-C power supply but that ended up being more complicated than benneficial. Still, if you like to use USB-C then you could use the design and expose the USB-C connector.
 
-## 3D printed case
+I printed the case in PETG because this seems to be the only type that has transaparent filament. It took about 26 hours for the grid and front panel and another 5 hours for the back. Electronics holder and cable hole were much quicker.
+I like to print in .15 mm resolution so this is also a reason why it took that long.
+
 <img src="https://raw.githubusercontent.com/MilovdZee/LEDCircleClock/main/images/LEDRingGrid.png" width=300/>
 
 ## LED ring
