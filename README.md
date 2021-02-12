@@ -40,5 +40,4 @@ The software is written for the Arduino IDE.
 - NeoPixelBus by Makuna
 - NTPClient
 
-And additional board manager for the ESP8266: http://arduino.esp8266.com/stable/package_esp8266com_index.json
-This must be set under "File->Preferences->Additional Boards Manager URLs"
+And additional board manager for the ESP8266: http://arduino.esp8266.com/stable/package_esp8266com_index.json. This must be set under "File->Preferences->Additional Boards Manager URLs".
