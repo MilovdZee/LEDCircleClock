@@ -5,7 +5,7 @@ The clock shows the hands in diferent colors on the grid of LEDs. To make it mor
 
 <img src="https://raw.githubusercontent.com/MilovdZee/LEDCircleClock/main/images/clock.jpg" height=300/> <img src="https://raw.githubusercontent.com/MilovdZee/LEDCircleClock/main/images/LayoutVideo.gif" height=300/>
 
-Filming this does not show the colors I see. It looks a lot more colorful in real life.
+Filming this does not show the colors I see. It looks a lot warmer and more saturated in real life.
 
 # Hardware
 - esp8266 / NodeMCU
@@ -32,4 +32,4 @@ The software is written for the Arduino IDE.
 - NTP to synchronize the time
 - OTA for wireless code updates 
 - WEB interface to configure brightness and WIFI settings
-- If WIFI is not found the esp8266 becomes an open access point
+- If WIFI is not found the esp8266 becomes an open access point. Pointing a browser to http://192.168.4.1/wifi opens the WIFI configuration page.
