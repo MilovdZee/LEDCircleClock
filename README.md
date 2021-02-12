@@ -6,9 +6,12 @@ The clock shows the hands in diferent colors on the grid of LEDs. To make it mor
 <img src="https://raw.githubusercontent.com/MilovdZee/LEDCircleClock/main/images/clock.jpg" width=300/>
 
 # Hardware
-- esp8266
+- esp8266 / NodeMCU
 - DC-DC converter if you like to accept multiple input voltages. The LED ring contains 241 LEDs and can consume up to 3.5 Amps
 - LED ring. Search aliexpress for "241 led ring". The diameter is 170mm.
+
+## Schematics
+<img src="https://raw.githubusercontent.com/MilovdZee/LEDCircleClock/main/images/schematics.png" width=300/>
 
 ## Case
 I designed the case in Blender and the files can be found in this project. Together with the STL files.
