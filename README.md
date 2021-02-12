@@ -9,7 +9,7 @@ Filming this does not show the colors I see. It looks a lot warmer and more satu
 
 # Hardware
 - esp8266 / NodeMCU
-- DC-DC converter if you like to accept multiple input voltages. The LED ring contains 241 LEDs and can consume up to 3.5 Amps
+- DC-DC converter if you like to accept multiple input voltages. The LED ring contains 241 LEDs and can consume up to 3.5 Amps. An XL4015 version sound like capable of handling this.
 - LED ring. Search aliexpress for "241 led ring". The diameter is 170mm.
 
 ## Schematics
