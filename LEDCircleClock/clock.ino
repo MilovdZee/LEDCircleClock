@@ -13,7 +13,7 @@ void drawAngle(int angle, int rings, RgbColor color, boolean overwrite = false) 
       if (distance > 180) distance = 360 - distance;
       double brightnessFactor = (180.0 - (double)distance) / 180.0; // 1.0 = minimal distance, 0.0 = maximum distance
       if (brightnessFactor > 0.99) brightnessFactor = 1.0;
-      brightnessFactor = pow(brightnessFactor, ringPowers[ring]); // steaper slopes and so narrower line
+      brightnessFactor = fastPow(brightnessFactor, ringPowers[ring]); // steaper slopes and so narrower line
 
       int ledNumber = startLEDs[ring] + led;
       RgbColor originalColor = strip.GetPixelColor(ledNumber);

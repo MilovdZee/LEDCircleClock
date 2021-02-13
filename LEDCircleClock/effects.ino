@@ -20,7 +20,7 @@ void pacman() {
   RgbColor color = RgbColor(brightness, brightness, 0);
   int bites = 2;
   int biteDelay = 1;
-  int stepSize = 5;
+  int stepSize = 3;
 
   strip.ClearTo(RgbColor(0, 0, 0));
 
@@ -43,7 +43,7 @@ void pacman() {
 
   while (bites-- > 0) {
     // Close beak
-    for (int angle = 45; angle >= 2 * stepSize; angle -= stepSize) {
+    for (int angle = 60; angle >= 2 * stepSize; angle -= stepSize) {
       drawAngle(270 + angle, RINGS, color);
       drawAngle(270 - angle, RINGS, color);
       strip.Show();
@@ -53,7 +53,7 @@ void pacman() {
     handlingDelay(200);
     
     // Open beak
-    for (int angle = 2 * stepSize; angle <= 45; angle += stepSize) {
+    for (int angle = 2 * stepSize; angle <= 60; angle += stepSize) {
       drawAngle(270 + angle, RINGS, RgbColor(0, 0, 0), true);
       drawAngle(270 - angle, RINGS, RgbColor(0, 0, 0), true);
       strip.Show();
@@ -67,8 +67,9 @@ void pacman() {
 void scan() {
   int stepSize = 5;
   double intensity = 0.0;
-  double intensityStep = 0.005;
-  int maxAngle = 720;
+  double intensityStep = 0.001;
+  double fadeOutSpeedup = 5.0;
+  int maxAngle = 4 * 360;
 
   int red = random(brightness);
   int green = random(brightness);
@@ -78,8 +79,8 @@ void scan() {
   strip.ClearTo(RgbColor(0, 0, 0));
   for(int angle = 0; angle < maxAngle; angle += stepSize) {
     // Set the intensity (fade in and fade out)
-    if(intensityStep > 0.0 && intensityStep * (maxAngle - angle - 20) <= 1.0) {
-      intensityStep = -intensityStep;
+    if(intensityStep > 0.0 && intensityStep * fadeOutSpeedup * (maxAngle - angle - 45) <= 1.0) {
+      intensityStep = -intensityStep * fadeOutSpeedup;
     }
     intensity = intensity + intensityStep * stepSize;
     if(intensity > 1.0) intensity = 1.0;

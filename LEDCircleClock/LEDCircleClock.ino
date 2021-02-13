@@ -27,7 +27,7 @@ char wifiPassword[60];
 int ringSizes[] = {1, 8, 12, 16, 24, 32, 40, 48, 60};
 
 // The higher the power the narrower the region that lights up
-float ringPowers[] = {10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0};
+int ringPowers[] = {10, 20, 30, 40, 50, 60, 70, 80, 90};
 
 // First LED number of a ring
 int startLEDs[RINGS];
@@ -55,7 +55,7 @@ void handlingDelay(int delayMillis) {
   // Make sure the software watchdog does not trigger
   ESP.wdtFeed();
 
-  if(delayMillis > 0) delay(delayMillis);
+  if (delayMillis > 0) delay(delayMillis);
 }
 
 void setPixel(int pixelNumber, RgbColor color) {
@@ -148,19 +148,21 @@ void setup() {
 }
 
 void loop() {
-  if (previousEffectSecond != timeClient.getSeconds() && random(20) == 0) {
+  if (previousEffectSecond != timeClient.getSeconds()) {
     previousEffectSecond = timeClient.getSeconds();
-    int effectChoice = random(3);
-    switch (effectChoice) {
-      case 0:
-        sparkle();
-        break;
-      case 1:
-        pacman();
-        break;
-      case 2:
-        scan();
-        break;
+    if (random(10) == 0) {
+      int effectChoice = random(3);
+      switch (effectChoice) {
+        case 0:
+          sparkle();
+          break;
+        case 1:
+          pacman();
+          break;
+        case 2:
+          scan();
+          break;
+      }
     }
   }
 
