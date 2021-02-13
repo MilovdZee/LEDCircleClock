@@ -7,6 +7,9 @@ The clock shows the hands in diferent colors on the grid of LEDs. To make it mor
 
 Filming this does not show the colors I see. It looks a lot warmer and more saturated in real life.
 
+## Effects
+<img src="https://raw.githubusercontent.com/MilovdZee/LEDCircleClock/main/images/sparkle.gif" height=300/> <img src="https://raw.githubusercontent.com/MilovdZee/LEDCircleClock/main/images/scan.gif" height=300/> <img src="https://raw.githubusercontent.com/MilovdZee/LEDCircleClock/main/images/pacman.gif" height=300/>
+
 # Hardware
 - esp8266 / NodeMCU
 - DC-DC converter if you like to accept multiple input voltages. The LED ring contains 241 LEDs and can consume up to 3.5 Amps. An XL4015 version sound like capable of handling this.
