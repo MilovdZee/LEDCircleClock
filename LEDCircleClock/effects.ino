@@ -1,6 +1,6 @@
 void sparkle() {
-  int sparkleRounds = 50;
-  int sparklesPerRound = 5;
+  int sparkleRounds = 75;
+  int sparklesPerRound = 4;
   int sparkleDelay = 50;
 
   for (int sparkleRound = 0; sparkleRound < sparkleRounds; sparkleRound++) {
@@ -17,7 +17,7 @@ void sparkle() {
 
 void pacman() {
   // Yellow beak
-  RgbColor color = RgbColor(brightness, brightness, 0);
+  RgbColor color = RgbColor(brightness / 2 + 1, brightness / 2 + 1, 0);
   int bites = 2;
   int biteDelay = 1;
   int stepSize = 3;
@@ -69,7 +69,7 @@ void scan() {
   double intensity = 0.0;
   double intensityStep = 0.001;
   double fadeOutSpeedup = 5.0;
-  int maxAngle = 4 * 360;
+  int maxAngle = 5 * 360;
 
   int red = random(brightness);
   int green = random(brightness);
@@ -100,7 +100,7 @@ void scan() {
 
 void fire() {
   // Translated version of a FastLed example
-  int rounds = 100;
+  int rounds = 150;
 
   int fireWidth = ringSizes[RINGS - 1];
   int fireHeight = RINGS;
@@ -118,7 +118,7 @@ void fire() {
     for (uint8_t h = 0; h < fireWidth; h++) {
       // Step 1.  Cool down every cell a little
       for ( uint8_t i = 0; i < fireHeight; i++) {
-        int newHeat = heat[h][i] - random(33);
+        int newHeat = heat[h][i] - random(80);
         heat[h][i] = newHeat > 0 ? newHeat : 0;
       }
 
@@ -133,7 +133,7 @@ void fire() {
       }
 
       if ( random(256) < activity ) {
-        int newHeat = heat[h][0]  + random(42);
+        int newHeat = heat[h][0]  + random(100);
         heat[h][0] = newHeat < 255 ? newHeat : 255;
       }
     }

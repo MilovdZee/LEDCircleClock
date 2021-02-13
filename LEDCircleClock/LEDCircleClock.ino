@@ -151,7 +151,7 @@ int count = 0;
 void loop() {
   if (previousEffectSecond != timeClient.getSeconds()) {
     previousEffectSecond = timeClient.getSeconds();
-    if (random(10) == 0) {
+    if (random(30) == 0) {
       int effectChoice = random(4);
       switch (effectChoice) {
         case 0:
