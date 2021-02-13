@@ -1,7 +1,10 @@
-
-void drawAngle(int angle, int rings, RgbColor color) {
+// zero degrees is straigh up
+void drawAngle(int angle, int rings, RgbColor color, boolean overwrite = false) {
   // Set the correct pixels in the rings
   for (int ring = 1; ring < rings; ring++) {
+    // Make sure the software watchdog does not trigger
+    ESP.wdtFeed();
+
     // Set the correct color for all the LEDs in the ring
     int ringSize = ringSizes[ring];
     for (int led = 0; led < ringSize; led++) {
@@ -14,7 +17,10 @@ void drawAngle(int angle, int rings, RgbColor color) {
 
       int ledNumber = startLEDs[ring] + led;
       RgbColor originalColor = strip.GetPixelColor(ledNumber);
-      RgbColor targetColor = RgbColor(min(color.R * brightnessFactor + originalColor.R, 255.0), min(color.G * brightnessFactor + originalColor.G, 255.0), min(color.B * brightnessFactor + originalColor.B, 255.0));
+      RgbColor targetColor = RgbColor(
+        max(color.R * brightnessFactor, (double)originalColor.R * (overwrite ? 1.0 - brightnessFactor : 1.0)), 
+        max(color.G * brightnessFactor, (double)originalColor.G * (overwrite ? 1.0 - brightnessFactor : 1.0)), 
+        max(color.B * brightnessFactor, (double)originalColor.B * (overwrite ? 1.0 - brightnessFactor : 1.0)));
 
       strip.SetPixelColor(ledNumber, targetColor);
     }
@@ -35,23 +41,23 @@ void drawMarkers() {
 void updateClockHands() {
   int secondsOfDay = timeClient.getEpochTime() % 43200;
   int millisOfSecond = millis() % 1000L;
-  if (previousSecond != secondsOfDay) {
+  if (previousClockSecond != secondsOfDay) {
     // Reset the millis offset
     millisOffset = -millisOfSecond;
-    previousSecond = secondsOfDay;
+    previousClockSecond = secondsOfDay;
   }
   millisOfSecond = millisOfSecond + millisOffset;
   if (millisOfSecond < 0) millisOfSecond += 1000;
 
   strip.ClearTo(RgbColor(0, 0, 0));
   int secondsAngle =  secondsOfDay % 60 * 6 + millisOfSecond * 6 / 1000;
-  drawAngle(secondsAngle, 9, RgbColor(0, brightness, 0));
+  drawAngle(secondsAngle, RINGS, RgbColor(0, brightness, 0));
 
   int minutesAngle = secondsOfDay % 3600 / 10;
-  drawAngle(minutesAngle, 8, RgbColor(0, 0, brightness));
+  drawAngle(minutesAngle, RINGS - 1, RgbColor(0, 0, brightness));
 
   int hoursAngle = secondsOfDay / 120;
-  drawAngle(hoursAngle, 7, RgbColor(brightness, 0, 0));
+  drawAngle(hoursAngle, RINGS - 2, RgbColor(brightness, 0, 0));
 
   drawMarkers();
 

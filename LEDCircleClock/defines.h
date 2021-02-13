@@ -5,6 +5,8 @@
 #define WIFI_PASSWORD_ADDR (SSID_ADDR + sizeof(ssid)) // String[60]
 #define BRIGHTNESS_ADDR (WIFI_PASSWORD_ADDR + sizeof(wifiPassword)) // int
 
+// Limit the power consumption. A full lit display can take up to 4 Amps.
+// A value of 255 disabled the limit and allows all LEDs to be full brightness.
 #define MAX_BRIGHTNESS 100
 
 #define NTP_SERVER "pool.ntp.org"

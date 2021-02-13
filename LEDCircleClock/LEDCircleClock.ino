@@ -12,7 +12,9 @@
 WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP, NTP_SERVER, TIME_OFFSET);
 
-int previousSecond = -1;
+int previousEffectSecond = -1;
+
+int previousClockSecond = -1;
 int millisOffset = 0; // Offset compared to millis() to get partial seconds in sync with the NTP seconds
 
 char ssid[60];
@@ -29,6 +31,7 @@ float ringPowers[] = {10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0};
 
 // First LED number of a ring
 int startLEDs[RINGS];
+int totalLEDs;
 
 const int PIXEL_COUNT = 241; // make sure to set this to the number of pixels in your strip
 int brightness; // Brightness between 0 and 255
@@ -44,12 +47,40 @@ void clearStrip() {
   strip.Show();
 }
 
+void handlingDelay(int delayMillis) {
+  timeClient.update();
+  ArduinoOTA.handle();
+  server.handleClient();
+
+  // Make sure the software watchdog does not trigger
+  ESP.wdtFeed();
+
+  if(delayMillis > 0) delay(delayMillis);
+}
+
 void setPixel(int pixelNumber, RgbColor color) {
   int red = min((int)color.R, MAX_BRIGHTNESS);
   int green = min((int)color.G, MAX_BRIGHTNESS);
   int blue = min((int)color.B, MAX_BRIGHTNESS);
   RgbColor limitedColor = RgbColor(red, green, blue);
   strip.SetPixelColor(pixelNumber, limitedColor);
+}
+
+void setRandomSeed() {
+  uint32_t seed;
+
+  // random works best with a seed that can use 31 bits
+  // analogRead on a unconnected pin tends toward less than four bits
+  seed = analogRead(0);
+  delay(1);
+
+  for (int shifts = 3; shifts < 31; shifts += 3) {
+    seed ^= analogRead(0) << shifts;
+    delay(1);
+  }
+
+  // Serial.println(seed);
+  randomSeed(seed);
 }
 
 void setup() {
@@ -106,16 +137,34 @@ void setup() {
     startLEDs[ring] = startLED;
     startLED += ringSizes[ring];
   }
+  totalLEDs = startLED + ringSizes[RINGS - 1];
 
   timeClient.begin();
+
+  setRandomSeed();
 
   Serial.println();
   Serial.println("Running...");
 }
 
 void loop() {
-  timeClient.update();
+  if (previousEffectSecond != timeClient.getSeconds() && random(20) == 0) {
+    previousEffectSecond = timeClient.getSeconds();
+    int effectChoice = random(3);
+    switch (effectChoice) {
+      case 0:
+        sparkle();
+        break;
+      case 1:
+        pacman();
+        break;
+      case 2:
+        scan();
+        break;
+    }
+  }
 
+  timeClient.update();
   ArduinoOTA.handle();
   server.handleClient();
 
