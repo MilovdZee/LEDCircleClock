@@ -147,10 +147,11 @@ void setup() {
   Serial.println("Running...");
 }
 
+int count = 0;
 void loop() {
   if (previousEffectSecond != timeClient.getSeconds()) {
     previousEffectSecond = timeClient.getSeconds();
-    if (random(10) == 0) {
+    if (random(600) == 0) {
       int effectChoice = random(3);
       switch (effectChoice) {
         case 0:

@@ -20,7 +20,7 @@ void setupOTA() {
     Serial.printf("OTA update progress: %u\r\n", progress * 100 / total);
     // Start 5 LEDs before the percentage. This is needed because the jump could be more then one LED.
     // 5 is just an arbitrary number and works up to a couple of hundred LEDs.
-    int startLED = max(0, PIXEL_COUNT * progress / total - 5);
+    int startLED = max(1, PIXEL_COUNT * progress / total - 5);
     int endLED = PIXEL_COUNT * progress / total;
     for (int led = startLED; led <= endLED; led++) {
       strip.SetPixelColor(led, RgbColor(0, 50, 0));
@@ -34,7 +34,7 @@ void setupOTA() {
     else if (error == OTA_CONNECT_ERROR) Serial.println("Connect Failed");
     else if (error == OTA_RECEIVE_ERROR) Serial.println("Receive Failed");
     else if (error == OTA_END_ERROR) Serial.println("End Failed");
-    for (int led = 0; led < 9; led++) {
+    for (int led = 0; led < ringSizes[0] + ringSizes[1]; led++) {
       strip.SetPixelColor(led, RgbColor(50, 0, 0));
     }
     strip.Show();
