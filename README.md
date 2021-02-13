@@ -3,10 +3,15 @@ A clock with 241 RGB LEDs.
 
 ## Introduction
 As a sucker for clocks I'm always looking for cool projects surrounding clocks. At our favorite Chinese shop I found a 241 LED ring that demanded to become a clock. So I ordered one and waited the standard couple of weeks for it to arrive. Nice, It looked perfect and very easy to use. Data-in and Data-out were next to each other and could simply be daisy-chained with a short piece of wire. Effectively the ring became a strand of 241 LED's all addressable from a serial bus.
-Now I needed to design a enclosure. Each LED needs to be separate from the neighboring LEDs. Some calculations were needed but after a couple of hours I had my 3D design. 26 hours of printing resulted in an enclosure that perfectly fits the LED ring.
+
+Now I needed to design a enclosure. Each LED needs to be separate from the neighboring LEDs. Some calculations were needed but after a couple of hours I had my 3D design in Blender. 26 hours of printing resulted in an enclosure that perfectly fits the LED ring.
+
 I started by testing with an example program to see if all functions as expected and it did. The current it takes at full brightness is a bit high but that is no problem while the clock in normal operation is not at full brightness and not all LEDs are lit.
+
 After the testing I wrote an Arduino program to show time based on NTP and once in a while shows an effect.
+
 Some trickery was needed. I wanted the seconds hand to move smoothly and so I used the milliseconds as an offset to the seconds. 
+
 Calculating the hands uses the 'pow()' function and that is a very CPU intensive operation. That is why I created a function that caches the previous values of the 'pow()' function to make it a lot faster.
 
 After all I'm quite happy with the result :)
