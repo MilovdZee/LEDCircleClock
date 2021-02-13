@@ -27,6 +27,7 @@ Filming this does not show the colors I see. It looks a lot warmer and more satu
 At random moments the clock is replaced by an effect. Just for a couple of seconds.
 
 <img src="https://raw.githubusercontent.com/MilovdZee/LEDCircleClock/main/images/sparkle.gif" height=300/> <img src="https://raw.githubusercontent.com/MilovdZee/LEDCircleClock/main/images/scan.gif" height=300/> 
+
 <img src="https://raw.githubusercontent.com/MilovdZee/LEDCircleClock/main/images/pacman.gif" height=300/> <img src="https://raw.githubusercontent.com/MilovdZee/LEDCircleClock/main/images/fire.gif" height=300/>
 
 # Hardware
