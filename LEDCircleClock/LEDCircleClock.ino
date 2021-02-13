@@ -151,8 +151,8 @@ int count = 0;
 void loop() {
   if (previousEffectSecond != timeClient.getSeconds()) {
     previousEffectSecond = timeClient.getSeconds();
-    if (random(600) == 0) {
-      int effectChoice = random(3);
+    if (random(10) == 0) {
+      int effectChoice = random(4);
       switch (effectChoice) {
         case 0:
           sparkle();
@@ -162,6 +162,9 @@ void loop() {
           break;
         case 2:
           scan();
+          break;
+        case 3:
+          fire();
           break;
       }
     }
