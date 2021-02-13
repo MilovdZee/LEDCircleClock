@@ -36,6 +36,7 @@ The software is written for the Arduino IDE.
 - OTA for wireless code updates. The OTA password as set in this repo is 'KlokPassword'.
 - WEB interface to configure brightness and WIFI settings. The ip address is received through DHCP and so should be looked up in the router. Or use the Arduino IDE to find it. It will show up as a port after restarting the IDE.
 - If WIFI is not found the esp8266 becomes an open access point. Pointing a browser to http://192.168.4.1/wifi opens the WIFI configuration page.
+- At random moments, about once an hour an effect is shown (sparkle, pacman, scan)
 
 ## Libraries
 - NeoPixelBus by Makuna
