@@ -36,6 +36,8 @@ At random moments the clock is replaced by an effect. Just for a couple of secon
 - LED ring. Search aliexpress for "241 led ring". The diameter is 170mm.
 
 ## Schematics
+Not really schematics but more like a wiring diagram. The schematics are not even worth drawing out :)
+
 <img src="https://raw.githubusercontent.com/MilovdZee/LEDCircleClock/main/images/schematics.png" width=300/>
 
 ## 3D printed Case
