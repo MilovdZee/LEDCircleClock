@@ -1,6 +1,13 @@
 # LEDCircleClock
 A clock with 241 RGB LEDs.
 
+## Description
+The clock shows the hands in diferent colors on the grid of LEDs. To make it more beautiful hands are antialiased. The brightness of the LED is calculated from the distance to the virtual pixel. I also use the milliseconds clock of the Arduino combined with the NTP clock to have a seconds hand that rotates fluently instead of ticking the seconds.
+
+<img src="https://raw.githubusercontent.com/MilovdZee/LEDCircleClock/main/images/clock.jpg" height=300/> <img src="https://raw.githubusercontent.com/MilovdZee/LEDCircleClock/main/images/LayoutVideo.gif" height=300/>
+
+Filming this does not show the colors I see. It looks a lot warmer and more saturated in real life.
+
 ## Introduction
 As a sucker for clocks I'm always looking for cool projects surrounding clocks. At our favorite Chinese shop I found a 241 LED ring that demanded to become a clock. So I ordered one and waited the standard couple of weeks for it to arrive. Nice, It looked perfect and very easy to use. Data-in and Data-out were next to each other and could simply be daisy-chained with a short piece of wire. Effectively the ring became a strand of 241 LED's all addressable from a serial bus.
 
@@ -15,13 +22,6 @@ Some trickery was needed. I wanted the seconds hand to move smoothly and so I us
 Calculating the hands uses the 'pow()' function and that is a very CPU intensive operation. That is why I created a function that caches the previous values of the 'pow()' function to make it a lot faster.
 
 After all I'm quite happy with the result :)
-
-## Description
-The clock shows the hands in diferent colors on the grid of LEDs. To make it more beautiful hands are antialiased. The brightness of the LED is calculated from the distance to the virtual pixel. I also use the milliseconds clock of the Arduino combined with the NTP clock to have a seconds hand that rotates fluently instead of ticking the seconds.
-
-<img src="https://raw.githubusercontent.com/MilovdZee/LEDCircleClock/main/images/clock.jpg" height=300/> <img src="https://raw.githubusercontent.com/MilovdZee/LEDCircleClock/main/images/LayoutVideo.gif" height=300/>
-
-Filming this does not show the colors I see. It looks a lot warmer and more saturated in real life.
 
 ## Effects
 At random moments the clock is replaced by an effect. Just for a couple of seconds.
