@@ -18,7 +18,7 @@ void sparkle() {
 void pacman() {
   // Yellow beak
   RgbColor color = RgbColor(brightness / 2 + 1, brightness / 2 + 1, 0);
-  int bites = 2;
+  int bites = 4;
   int biteDelay = 1;
   int stepSize = 3;
 
@@ -43,7 +43,7 @@ void pacman() {
 
   while (bites-- > 0) {
     // Close beak
-    for (int angle = 60; angle >= 2 * stepSize; angle -= stepSize) {
+    for (int angle = 80; angle >= stepSize; angle -= stepSize) {
       drawAngle(270 + angle, RINGS, color);
       drawAngle(270 - angle, RINGS, color);
       strip.Show();
@@ -53,9 +53,9 @@ void pacman() {
     handlingDelay(200);
 
     // Open beak
-    for (int angle = 2 * stepSize; angle <= 60; angle += stepSize) {
-      drawAngle(270 + angle, RINGS, RgbColor(0, 0, 0), true);
-      drawAngle(270 - angle, RINGS, RgbColor(0, 0, 0), true);
+    for (int angle = 0; angle <= 60; angle += stepSize) {
+      drawAngle(270 + angle, RINGS, RgbColor(0, 0, 0), true, 0.2);
+      drawAngle(270 - angle, RINGS, RgbColor(0, 0, 0), true, 0.2);
       strip.Show();
       handlingDelay(biteDelay);
     }

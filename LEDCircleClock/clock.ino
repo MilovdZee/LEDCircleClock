@@ -1,5 +1,5 @@
 // zero degrees is straigh up
-void drawAngle(int angle, int rings, RgbColor color, boolean overwrite = false) {
+void drawAngle(int angle, int rings, RgbColor color, boolean overwrite = false, double brightnessFactorCutoff = 0.0) {
   // Set the correct pixels in the rings
   for (int ring = 1; ring < rings; ring++) {
     // Make sure the software watchdog does not trigger
@@ -18,11 +18,11 @@ void drawAngle(int angle, int rings, RgbColor color, boolean overwrite = false) 
       int ledNumber = startLEDs[ring] + led;
       RgbColor originalColor = strip.GetPixelColor(ledNumber);
       RgbColor targetColor = RgbColor(
-        max(color.R * brightnessFactor, (double)originalColor.R * (overwrite ? 1.0 - brightnessFactor : 1.0)), 
-        max(color.G * brightnessFactor, (double)originalColor.G * (overwrite ? 1.0 - brightnessFactor : 1.0)), 
-        max(color.B * brightnessFactor, (double)originalColor.B * (overwrite ? 1.0 - brightnessFactor : 1.0)));
+        max(color.R * brightnessFactor, (double)originalColor.R * (overwrite && brightnessFactor > brightnessFactorCutoff ? 1.0 - brightnessFactor : 1.0)), 
+        max(color.G * brightnessFactor, (double)originalColor.G * (overwrite && brightnessFactor > brightnessFactorCutoff ? 1.0 - brightnessFactor : 1.0)), 
+        max(color.B * brightnessFactor, (double)originalColor.B * (overwrite && brightnessFactor > brightnessFactorCutoff ? 1.0 - brightnessFactor : 1.0)));
 
-      strip.SetPixelColor(ledNumber, targetColor);
+      setPixel(ledNumber, targetColor);
     }
   }
 }
@@ -35,7 +35,7 @@ void drawMarkers() {
     RgbColor markerColor = RgbColor(min(brightness / 3 + originalColor.R, 255), min(brightness / 4 + originalColor.G, 255),  originalColor.B);
     strip.SetPixelColor(ledNumber, markerColor);
   }
-  strip.SetPixelColor(0, RgbColor(brightness / 3, brightness / 4, 0));
+  setPixel(0, RgbColor(brightness / 3, brightness / 4, 0));
 }
 
 void updateClockHands() {
