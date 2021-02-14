@@ -48,7 +48,8 @@ I printed the case in PETG because this seems to be the only type that has trans
 I like to print in .15 mm resolution so this is also a reason why it took that long.
 
 <img src="https://raw.githubusercontent.com/MilovdZee/LEDCircleClock/main/images/LEDRingGrid.png" height=300/> <img src="https://raw.githubusercontent.com/MilovdZee/LEDCircleClock/main/images/LEDRingBack.png" height=300/>
-<img src="https://raw.githubusercontent.com/MilovdZee/LEDCircleClock/main/images/SlicedGrid.png" height=300/>
+<img src="https://raw.githubusercontent.com/MilovdZee/LEDCircleClock/main/images/SlicedGrid.png" height=300/> <img src="https://raw.githubusercontent.com/MilovdZee/LEDCircleClock/main/images/printing.jpg" height=300/>
+<img src="https://raw.githubusercontent.com/MilovdZee/LEDCircleClock/main/images/ledring_fits.jpg" height=300/>
 
 ## LED ring
 <img src="https://raw.githubusercontent.com/MilovdZee/LEDCircleClock/main/images/241LEDring.jpg" height=300/>
