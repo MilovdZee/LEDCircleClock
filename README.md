@@ -52,6 +52,8 @@ I like to print in .15 mm resolution so this is also a reason why it took that l
 <img src="https://raw.githubusercontent.com/MilovdZee/LEDCircleClock/main/images/ledring_fits.jpg" height=300/>
 
 ## LED ring
+As mentioned, just search for "241 LED ring". The prices varies a lot so make sure to compare them. Mine was about €17,-.
+
 <img src="https://raw.githubusercontent.com/MilovdZee/LEDCircleClock/main/images/241LEDring.jpg" height=300/>
 
 # Software
