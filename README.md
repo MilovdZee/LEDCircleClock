@@ -73,3 +73,11 @@ The software is written for the Arduino IDE.
 The libraries can be installed under "Sketch -> Include Library -> Manage Libraries..."
 
 And additional board manager for the ESP8266: http://arduino.esp8266.com/stable/package_esp8266com_index.json. This must be set under "File->Preferences->Additional Boards Manager URLs".
+
+
+## Change Log
+
+- March 21, 2021: Use native ESP NTP timekeeping, instead of external NTP library, and make it use automatic summer/winter time switch (Thijs Kaper)
+
+
+

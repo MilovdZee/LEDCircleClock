@@ -39,17 +39,35 @@ void drawMarkers() {
 }
 
 void updateClockHands() {
-  int secondsOfDay = timeClient.getEpochTime() % 43200;
+  currentTime = time(nullptr); // time_t = seconds since epoch
+  
+  if (isNtpOlderThanOneHour()) {
+    // No fresh NTP time info? Hide clock hands...
+    strip.ClearTo(RgbColor(0, 0, 0));
+    drawMarkers();
+    if (currentTime % 2 == 0) {
+      // Flashing red dot in the middle to indicate loss of time
+      setPixel(0, RgbColor(brightness / 3, 0, 0));
+    }
+    strip.Show();
+    return;
+  }
+
+  timeinfo = localtime (&currentTime); // setup timeinfo -> tm_hour, timeinfo -> tm_min, timeinfo -> tm_sec
+  int secondsOfDay = ((timeinfo -> tm_hour % 12) * 3600) + (timeinfo -> tm_min * 60) + (timeinfo -> tm_sec);
+
   int millisOfSecond = millis() % 1000L;
   if (previousClockSecond != secondsOfDay) {
     // Reset the millis offset
     millisOffset = -millisOfSecond;
     previousClockSecond = secondsOfDay;
   }
+  
   millisOfSecond = millisOfSecond + millisOffset;
   if (millisOfSecond < 0) millisOfSecond += 1000;
 
   strip.ClearTo(RgbColor(0, 0, 0));
+  
   int secondsAngle =  secondsOfDay % 60 * 6 + millisOfSecond * 6 / 1000;
   drawAngle(secondsAngle, RINGS, RgbColor(0, brightness, 0));
 
@@ -60,6 +78,5 @@ void updateClockHands() {
   drawAngle(hoursAngle, RINGS - 2, RgbColor(brightness, 0, 0));
 
   drawMarkers();
-
   strip.Show();
 }

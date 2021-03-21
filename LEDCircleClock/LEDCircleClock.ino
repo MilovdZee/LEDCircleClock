@@ -5,14 +5,22 @@
 #include <EEPROM.h>
 #include <NTPClient.h>
 #include <WiFiUdp.h>
+#include <TZ.h>
+#include <coredecls.h> // required for settimeofday_cb() (NTP sync callback)
 
 #include "defines.h"
 
-// By default 'pool.ntp.org' is used with 60 seconds update interval and no offset
-WiFiUDP ntpUDP;
-NTPClient timeClient(ntpUDP, NTP_SERVER, TIME_OFFSET);
 
-int previousEffectSecond = -1;
+boolean timeIsSet = false;
+time_t lastNtpSet = 0;
+time_t currentTime = time(nullptr); // time_t = seconds since epoch
+struct tm * timeinfo;
+
+
+// Used for web-page to set which effect will play next in the main loop (to manually trigger an effect)
+int triggerEffect = -1;
+
+time_t previousEffectTime = time(nullptr);
 
 int previousClockSecond = -1;
 int millisOffset = 0; // Offset compared to millis() to get partial seconds in sync with the NTP seconds
@@ -42,13 +50,25 @@ NeoPixelBus<NeoGrbFeature, Neo800KbpsMethod> strip(PIXEL_COUNT);
 ESP8266WebServer server(80);
 ESP8266HTTPUpdateServer httpUpdater;
 
+// Record the NPT set time
+void timeUpdated() {
+  timeIsSet = true;
+  lastNtpSet = time(nullptr);
+  Serial.print("NTP Updated: "); Serial.println(ctime(&lastNtpSet));
+}
+
+// Check if NTPD sync was more than ONE hour and 20 SECONDS ago. If so, we show it on screen to indicate we are not sure about the time yet or anymore.
+boolean isNtpOlderThanOneHour() {
+  // time(nullptr) = time in seconds
+  return (!timeIsSet) || (time(nullptr) - lastNtpSet) > 3620;
+}
+
 void clearStrip() {
   strip.ClearTo(RgbColor(0, 0, 0));
   strip.Show();
 }
 
 void handlingDelay(int delayMillis) {
-  timeClient.update();
   ArduinoOTA.handle();
   server.handleClient();
 
@@ -119,6 +139,14 @@ void setup() {
   Serial.println(WiFi.localIP());
   delay(1000);
 
+
+  // implement NTP update of timekeeping (with automatic hourly updates)
+  configTime(MY_TZ, NTP_SERVERS);
+
+  // callback, when NTP changes the time
+  settimeofday_cb(timeUpdated);
+
+
   setupOTA();
 
   EEPROM.get(BRIGHTNESS_ADDR, brightness);
@@ -127,6 +155,7 @@ void setup() {
   httpUpdater.setup(&server);
   server.on("/", handleRoot);
   server.on("/wifi", handleWifi);
+  server.on("/effect", handleEffect);
   server.begin();
 
   clearStrip();
@@ -139,8 +168,6 @@ void setup() {
   }
   totalLEDs = startLED + ringSizes[RINGS - 1];
 
-  timeClient.begin();
-
   setRandomSeed();
 
   Serial.println();
@@ -149,30 +176,44 @@ void setup() {
 
 int count = 0;
 void loop() {
-  if (previousEffectSecond != timeClient.getSeconds()) {
-    previousEffectSecond = timeClient.getSeconds();
-    if (random(30) == 0) {
-      int effectChoice = random(4);
-      switch (effectChoice) {
-        case 0:
-          sparkle();
-          break;
-        case 1:
-          pacman();
-          break;
-        case 2:
-          scan();
-          break;
-        case 3:
-          fire();
-          break;
+  currentTime = time(nullptr); // time_t = seconds since epoch
+  timeinfo = localtime (&currentTime); // setup timeinfo -> tm_hour, timeinfo -> tm_min, timeinfo -> tm_sec
+
+  // Check if web interface scheduled an effect to be played.
+  if (triggerEffect != -1) {
+    executeEffect(triggerEffect);
+    triggerEffect = -1;
+  }
+  
+  // suppress effects in the night between 22.00 and 8:00
+  if ((timeinfo -> tm_hour) >= 8 && (timeinfo -> tm_hour) <= 21) {
+    if (previousEffectTime != currentTime) {
+      previousEffectTime = currentTime;
+      if (random(30) == 0) {
+        int effectChoice = random(4);
+        executeEffect(effectChoice);
       }
     }
   }
 
-  timeClient.update();
-  ArduinoOTA.handle();
   server.handleClient();
-
+  ArduinoOTA.handle();
   updateClockHands();
+}
+
+void executeEffect(int choice) {
+        switch (choice) {
+          case 0:
+            sparkle();
+            break;
+          case 1:
+            pacman();
+            break;
+          case 2:
+            scan();
+            break;
+          case 3:
+            fire();
+            break;
+        }
 }

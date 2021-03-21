@@ -19,7 +19,7 @@ void handleRoot() {
   // Read back to check if the values are stored correctly
   EEPROM.get(BRIGHTNESS_ADDR, brightness);
 
-  String settingsForm = String(CSS) + "<html>\
+  String settingsForm = "<html><head>" + String(CSS) + "</head>\
   <body>\
     <div class=\"container\">\
       <h1>Settings</h1>\
@@ -28,12 +28,25 @@ void handleRoot() {
         <input type=\"range\" name=\"brightness\" min=\"2\" max=\"255\" value=\"" + String(brightness) + "\"></br></br>\
         <input type=\"submit\" value=\"Submit\">\
       </form>\
-      <div><a href=\"/wifi\">wifi</a></div>\
+      <div class='effects'>\
+      <form method='post' action='/effect'><input type='hidden' name='effect' value='0'><input type=\"submit\" value=\"sparkle\"></form>\
+      <form method='post' action='/effect'><input type='hidden' name='effect' value='1'><input type=\"submit\" value=\"pacman\"></form>\
+      <form method='post' action='/effect'><input type='hidden' name='effect' value='2'><input type=\"submit\" value=\"scan\"></form>\
+      <form method='post' action='/effect'><input type='hidden' name='effect' value='3'><input type=\"submit\" value=\"fire\"></form>\
+      </div>\
+      <div class='wifimenudiv'><a href=\"/wifi\">wifi</a></div>\
     </div>\
   </body>\
 </html>";
 
   server.send(200, "text/html", settingsForm);
+}
+
+void handleEffect() {
+  // let main loop know which effect we want to see, but return web response immediately.
+  triggerEffect = server.arg("effect").toInt();
+  server.sendHeader("Location", String("/"), true);
+  server.send ( 302, "text/plain", "");
 }
 
 void handleWifi() {
@@ -59,7 +72,7 @@ void handleWifi() {
   EEPROM.get(SSID_ADDR, ssid);
   EEPROM.get(WIFI_PASSWORD_ADDR, wifiPassword);
 
-  String settingsForm = String(CSS) + "<html>\
+  String settingsForm = "<html><head>" + String(CSS) + "</head>\
   <body>\
     <div class=\"container\">\
     <h1>WiFi Settings</h1>\
