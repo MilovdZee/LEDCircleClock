@@ -9,8 +9,11 @@
 // A value of 255 disabled the limit and allows all LEDs to be full brightness.
 #define MAX_BRIGHTNESS 100
 
-#define NTP_SERVER "pool.ntp.org"
-#define TIME_OFFSET 3600 // Central European Time
+// The timezone to sync the date/time to, using NTP. For timezone to use, see TZ.h.
+#define MY_TZ TZ_Europe_Amsterdam
+
+// NTP server list to use for syncing time.
+#define NTP_SERVERS "0.nl.pool.ntp.org", "1.nl.pool.ntp.org", "2.nl.pool.ntp.org"
 
 #define CSS "<style>\
   body {\

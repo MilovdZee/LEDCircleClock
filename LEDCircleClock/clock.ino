@@ -18,9 +18,9 @@ void drawAngle(int angle, int rings, RgbColor color, boolean overwrite = false, 
       int ledNumber = startLEDs[ring] + led;
       RgbColor originalColor = strip.GetPixelColor(ledNumber);
       RgbColor targetColor = RgbColor(
-        max(color.R * brightnessFactor, (double)originalColor.R * (overwrite && brightnessFactor > brightnessFactorCutoff ? 1.0 - brightnessFactor : 1.0)), 
-        max(color.G * brightnessFactor, (double)originalColor.G * (overwrite && brightnessFactor > brightnessFactorCutoff ? 1.0 - brightnessFactor : 1.0)), 
-        max(color.B * brightnessFactor, (double)originalColor.B * (overwrite && brightnessFactor > brightnessFactorCutoff ? 1.0 - brightnessFactor : 1.0)));
+                               max(color.R * brightnessFactor, (double)originalColor.R * (overwrite && brightnessFactor > brightnessFactorCutoff ? 1.0 - brightnessFactor : 1.0)),
+                               max(color.G * brightnessFactor, (double)originalColor.G * (overwrite && brightnessFactor > brightnessFactorCutoff ? 1.0 - brightnessFactor : 1.0)),
+                               max(color.B * brightnessFactor, (double)originalColor.B * (overwrite && brightnessFactor > brightnessFactorCutoff ? 1.0 - brightnessFactor : 1.0)));
 
       setPixel(ledNumber, targetColor);
     }
@@ -39,7 +39,23 @@ void drawMarkers() {
 }
 
 void updateClockHands() {
-  int secondsOfDay = timeClient.getEpochTime() % 43200;
+  currentTime = time(nullptr); // time_t = seconds since epoch
+
+  if (isNtpOlderThanOneHour()) {
+    // No fresh NTP time info? Hide clock hands...
+    strip.ClearTo(RgbColor(0, 0, 0));
+    drawMarkers();
+    if (currentTime % 2 == 0) {
+      // Flashing red dot in the middle to indicate loss of time
+      setPixel(0, RgbColor(brightness / 3, 0, 0));
+    }
+    strip.Show();
+    return;
+  }
+
+  timeinfo = localtime (&currentTime); // setup timeinfo -> tm_hour, timeinfo -> tm_min, timeinfo -> tm_sec
+  int secondsOfDay = ((timeinfo -> tm_hour % 12) * 3600) + (timeinfo -> tm_min * 60) + (timeinfo -> tm_sec);
+  
   int millisOfSecond = millis() % 1000L;
   if (previousClockSecond != secondsOfDay) {
     // Reset the millis offset
@@ -50,6 +66,7 @@ void updateClockHands() {
   if (millisOfSecond < 0) millisOfSecond += 1000;
 
   strip.ClearTo(RgbColor(0, 0, 0));
+  
   int secondsAngle =  secondsOfDay % 60 * 6 + millisOfSecond * 6 / 1000;
   drawAngle(secondsAngle, RINGS, RgbColor(0, brightness, 0));
 
