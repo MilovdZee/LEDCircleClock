@@ -19,6 +19,11 @@ void handleRoot() {
   // Read back to check if the values are stored correctly
   EEPROM.get(BRIGHTNESS_ADDR, brightness);
 
+  String effectLinks = "";
+  for (int i=0; i< getNrOfEffects(); i++) {
+    effectLinks += "<form method='post' action='/effect'><input type='hidden' name='effect' value='" + String(i) + "'><input type='submit' value='" + String(i) + "'></form>";
+  }
+
   String settingsForm = "<html><head>" + String(CSS) + "</head>\
   <body>\
     <div class=\"container\">\
@@ -28,11 +33,7 @@ void handleRoot() {
         <input type=\"range\" name=\"brightness\" min=\"2\" max=\"255\" value=\"" + String(brightness) + "\"></br></br>\
         <input type=\"submit\" value=\"Submit\">\
       </form>\
-      <div class='effects'>\
-      <form method='post' action='/effect'><input type='hidden' name='effect' value='0'><input type=\"submit\" value=\"sparkle\"></form>\
-      <form method='post' action='/effect'><input type='hidden' name='effect' value='1'><input type=\"submit\" value=\"pacman\"></form>\
-      <form method='post' action='/effect'><input type='hidden' name='effect' value='2'><input type=\"submit\" value=\"scan\"></form>\
-      <form method='post' action='/effect'><input type='hidden' name='effect' value='3'><input type=\"submit\" value=\"fire\"></form>\
+      <div class='effects'>" + effectLinks + "\
       </div>\
       <div class='wifimenudiv'><a href=\"/wifi\">wifi</a></div>\
     </div>\

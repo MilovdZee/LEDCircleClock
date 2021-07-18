@@ -16,6 +16,7 @@ time_t lastNtpSet = 0;
 time_t currentTime = time(nullptr); // time_t = seconds since epoch
 struct tm * timeinfo;
 
+boolean otaActive = false;
 
 // Used for web-page to set which effect will play next in the main loop (to manually trigger an effect)
 int triggerEffect = -1;
@@ -37,8 +38,8 @@ int ringSizes[] = {1, 8, 12, 16, 24, 32, 40, 48, 60};
 // The higher the power the narrower the region that lights up
 int ringPowers[] = {10, 20, 30, 40, 50, 60, 70, 80, 90};
 
-// First LED number of a ring
-int startLEDs[RINGS];
+// First LED number of a ring (one ring more than exists, to be able to check last led nr)
+int startLEDs[RINGS+1];
 int totalLEDs;
 
 const int PIXEL_COUNT = 241; // make sure to set this to the number of pixels in your strip
@@ -160,9 +161,9 @@ void setup() {
 
   clearStrip();
 
-  // Set the start LED numbers for every ring
+  // Set the start LED numbers for every ring, add one extra for startLed of non-existent next ring.
   int startLED = 0;
-  for (int ring = 0; ring < RINGS; ring++) {
+  for (int ring = 0; ring <= RINGS; ring++) {
     startLEDs[ring] = startLED;
     startLED += ringSizes[ring];
   }
@@ -176,6 +177,13 @@ void setup() {
 
 int count = 0;
 void loop() {
+  if (otaActive) {
+    server.handleClient();
+    ArduinoOTA.handle();
+    // Skip normal drawing routines, to keep ota update more stable
+    return;    
+  }
+  
   currentTime = time(nullptr); // time_t = seconds since epoch
   timeinfo = localtime (&currentTime); // setup timeinfo -> tm_hour, timeinfo -> tm_min, timeinfo -> tm_sec
 
@@ -190,8 +198,7 @@ void loop() {
     if (previousEffectTime != currentTime) {
       previousEffectTime = currentTime;
       if (random(30) == 0) {
-        int effectChoice = random(4);
-        executeEffect(effectChoice);
+        executeRandomEffect();
       }
     }
   }
@@ -199,21 +206,4 @@ void loop() {
   server.handleClient();
   ArduinoOTA.handle();
   updateClockHands();
-}
-
-void executeEffect(int choice) {
-        switch (choice) {
-          case 0:
-            sparkle();
-            break;
-          case 1:
-            pacman();
-            break;
-          case 2:
-            scan();
-            break;
-          case 3:
-            fire();
-            break;
-        }
 }
