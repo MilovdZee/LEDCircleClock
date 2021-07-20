@@ -6,11 +6,21 @@
 //
 // Thijs Kaper (17/7/2021)
 
+// Red-Blue-Neon
+//#define DIGICLOCK_BACKGROUND RgbColor(0, 0, 0)
+//#define DIGICLOCK_DIGITS     RgbColor(60, 0, 0)
+//#define DIGICLOCK_IMAGE      RgbColor(0, 0, 60)
+//#define DIGICLOCK_COLON      RgbColor(60, 60, 0)
+//#define DIGICLOCK_COLON2     RgbColor(0, 0, 60)
+//#define DIGICLOCK_PENDULUM   RgbColor(60, 0, 60)
+
+// New-Reto-Wave
 #define DIGICLOCK_BACKGROUND RgbColor(0, 0, 0)
-#define DIGICLOCK_DIGITS     RgbColor(60, 0, 0)
-#define DIGICLOCK_IMAGE      RgbColor(0, 0, 60)
-#define DIGICLOCK_COLON      RgbColor(60, 60, 0)
-#define DIGICLOCK_PENDULUM   RgbColor(60, 0, 60)
+#define DIGICLOCK_DIGITS     RgbColor(50, 15, 0)
+#define DIGICLOCK_IMAGE      RgbColor(23, 0, 12)
+#define DIGICLOCK_COLON      RgbColor(28, 3, 7)
+#define DIGICLOCK_COLON2     RgbColor(0, 14, 30)
+#define DIGICLOCK_PENDULUM   RgbColor(0, 14, 30)
 
 // 7 segment definitions for numbers 0..9
 // The segments are numbered like this:
@@ -99,7 +109,6 @@ const uint8_t image[][2] = {
   { 234, 1}, { 237, 4}, { 181, 5}, {188, 1}, // top row arc and dots
   { 176, 1}, { 138, 1},                      // second row dots
   { 129, 4}, { 93, 5},                       // third row arc
-  { 1, 1}, { 5, 1},                          // middle colon dots
   { 109, 9},                                 // third from bottom arc
   { 152, 1}, { 162, 1},                      // second from bottom dots
   { 204, 1}, { 207, 9}, { 218, 1},           // bottom row arc and dots
@@ -168,6 +177,8 @@ void digiclockDrawPendulum() {
     strip.SetPixelColor(5, DIGICLOCK_COLON);
     pendulum = (9 * millisOfSecond + 0.5) / 1000;
   } else {
+    strip.SetPixelColor(1, DIGICLOCK_COLON2);
+    strip.SetPixelColor(5, DIGICLOCK_COLON2);
     pendulum = 9 - (9 * millisOfSecond + 0.5) / 1000;
   }
   strip.SetPixelColor(153 + pendulum, DIGICLOCK_PENDULUM);
