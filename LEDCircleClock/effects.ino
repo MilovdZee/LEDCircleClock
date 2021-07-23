@@ -1,5 +1,5 @@
 
-#define NR_OF_EFFECTS 7
+#define NR_OF_EFFECTS 8
 
 int getNrOfEffects() {
   return NR_OF_EFFECTS;
@@ -24,6 +24,7 @@ void executeEffect(int choice) {
     case 4: snake(); break;
     case 5: maze(); break;
     case 6: digiclock(); break;
+    case 7: bomb(); break;
     default: break;
   }
 }
