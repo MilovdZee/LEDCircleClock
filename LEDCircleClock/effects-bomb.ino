@@ -50,7 +50,7 @@ void bomb() {
       if (i<sizeof(fuse)) {
         strip.SetPixelColor(fuse[i], getBrightnessPercentage(FIRE_COLOR_1, fader));
       }
-      if (i > 0) {
+      if (i > 0 && i < sizeof(fuse)+1) {
         strip.SetPixelColor(fuse[i-1], getBrightnessPercentage(FIRE_COLOR_2, (130 - fader + 20)));
       }
       if (i > 1) {
