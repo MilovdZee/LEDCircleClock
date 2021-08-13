@@ -4,6 +4,7 @@
 #define SSID_ADDR 0 // String[60]
 #define WIFI_PASSWORD_ADDR (SSID_ADDR + sizeof(ssid)) // String[60]
 #define BRIGHTNESS_ADDR (WIFI_PASSWORD_ADDR + sizeof(wifiPassword)) // int
+#define OTA_PASSWORD_ADDR (BRIGHTNESS_ADDR + sizeof(int)) // String[12]
 
 // Limit the power consumption. A full lit display can take up to 4 Amps.
 // A value of 255 disabled the limit and allows all LEDs to be full brightness.
@@ -26,7 +27,7 @@
     text-align: center;\
   }\
   .effects input { position: initial !important; width: 200px !important; float: left; margin: 4px; } \
-  .effects { width: 900px; left: auto; }\
+  .effects { width: 100%; left: auto; }\
   div.container {\
     display: inline-block;\
     width: 90%;\
@@ -67,6 +68,12 @@
   .wifimenudiv {\
     position: absolute;\
     right: 2%;\
+    bottom: 2%;\
+    font-size: .6em;\
+  }\
+  .colormenudiv {\
+    position: absolute;\
+    left: 2%;\
     bottom: 2%;\
     font-size: .6em;\
   }\

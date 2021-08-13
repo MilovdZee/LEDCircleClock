@@ -20,7 +20,7 @@ The original project had 4 effects, next to the analog clock. I (Thijs) have add
 - Hidden feature: color picker (by Thijs, July 2021).
 
 And I also did add automatic following of summer/winter time (in March 2021). Possibly some or all of this will be merged into the original github project.
-Oh, and I did some refactoring to put the effects each in a separate source file.
+Oh, and I did some refactoring to put the effects each in a separate source file. And just now added a demo mode to play all effects, and a setting for ota password.
 
 Back to Milo's descriptions:
 
@@ -112,6 +112,6 @@ And additional board manager for the ESP8266: http://arduino.esp8266.com/stable/
 ## Change Log
 
 - March 21, 2021: Use native ESP NTP timekeeping, instead of external NTP library, and make it use automatic summer/winter time switch (Thijs Kaper).
-- July/August 2021: Add some more effects (see top of readme) (Thijs Kaper).
+- July/August 2021: Add some more effects, demo mode, and ota-password config (see top of readme) (Thijs Kaper).
 
 

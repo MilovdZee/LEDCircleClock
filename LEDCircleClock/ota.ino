@@ -4,7 +4,13 @@ void setupOTA() {
   char buffer[50];
   snprintf(buffer, sizeof(buffer), "%s_%d", HOSTNAME, random(9999));
   ArduinoOTA.setHostname(buffer);
-  ArduinoOTA.setPassword(PASSWORD); // No authentication by default
+
+  EEPROM.get(OTA_PASSWORD_ADDR, otaPassword);
+  if (String(otaPassword).length() == 0 || String(otaPassword).length() >= (sizeof(otaPassword)-1)) {
+    ArduinoOTA.setPassword(PASSWORD);
+  } else {
+    ArduinoOTA.setPassword(otaPassword);
+  }
 
   ArduinoOTA.onStart([]() {
     otaActive = true;

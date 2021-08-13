@@ -10,6 +10,8 @@
 
 #include "defines.h"
 
+// To start running/showing ALL effects in a row, set demoMode to 0.
+int demoMode = -1;
 
 boolean timeIsSet = false;
 time_t lastNtpSet = 0;
@@ -28,6 +30,7 @@ int millisOffset = 0; // Offset compared to millis() to get partial seconds in s
 
 char ssid[60];
 char wifiPassword[60];
+char otaPassword[12];
 
 // Number of rings
 #define RINGS 9
@@ -158,6 +161,7 @@ void setup() {
   server.on("/wifi", handleWifi);
   server.on("/effect", handleEffect);
   server.on("/color", handleColorPicker);
+  server.on("/demo", handleDemoMode);
   server.begin();
 
   clearStrip();
@@ -195,12 +199,21 @@ void loop() {
   }
   
   // suppress effects in the night between 22.00 and 8:00
-  if ((timeinfo -> tm_hour) >= 8 && (timeinfo -> tm_hour) <= 21) {
+  if (demoMode == -1 && (timeinfo -> tm_hour) >= 8 && (timeinfo -> tm_hour) <= 21) {
     if (previousEffectTime != currentTime) {
       previousEffectTime = currentTime;
       if (random(30) == 0) {
         executeRandomEffect();
       }
+    }
+  }
+
+  if (demoMode >= 0 && currentTime > previousEffectTime) {
+    executeEffect(demoMode);
+    previousEffectTime = time(nullptr) + 2;
+    demoMode++;
+    if (demoMode >= getNrOfEffects()) {
+      demoMode = -1;
     }
   }
 
