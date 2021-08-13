@@ -157,6 +157,7 @@ void setup() {
   server.on("/", handleRoot);
   server.on("/wifi", handleWifi);
   server.on("/effect", handleEffect);
+  server.on("/color", handleColorPicker);
   server.begin();
 
   clearStrip();
