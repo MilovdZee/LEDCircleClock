@@ -1,5 +1,5 @@
 
-#define NR_OF_EFFECTS 10
+#define NR_OF_EFFECTS 11
 
 int getNrOfEffects() {
   return NR_OF_EFFECTS;
@@ -27,6 +27,7 @@ void executeEffect(int choice) {
     case 7: bomb(); break;
     case 8: ticTacToe(); break;
     case 9: drain(); break;
+    case 10: vault(); break;
     case 100: colorPicker(); break; // 100 = hidden developer option (not shown as effect), use/trigger using http://ip-address/color
     default: break;
   }
