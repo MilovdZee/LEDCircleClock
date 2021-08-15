@@ -80,7 +80,7 @@ void bomb() {
     for(int r=8;r>0;r--) {
       // Shuffle the position in the ring, to get better movement distribution
       int shuffled[ringSizes[r]];
-      shuffleArrayElements(shuffled, ringSizes[r]);
+      getRandomIndexOrder(shuffled, ringSizes[r]);
       // Go through all pixels of outer ring
       for(int i=0;i<ringSizes[r];i++) {
         int outerPos = shuffled[i];
@@ -114,7 +114,7 @@ RgbColor getBrightnessPercentage(RgbColor color, int percentage) {
 // Fill an int array of given length, where elements are indexes 0..(size-1).
 // And these are randomly shuffeled a bit. This is to make the explosion not always
 // go clockwise, as that results in just some separate big blocks moving, not a nice distribution.
-void shuffleArrayElements(int result[], int len) {
+void getRandomIndexOrder(int result[], int len) {
   for (int i=0;i<len;i++) {
     result[i]=i;
   }
