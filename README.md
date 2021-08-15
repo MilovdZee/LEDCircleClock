@@ -17,6 +17,7 @@ The original project had 4 effects, next to the analog clock. I (Thijs) have add
 - Digital Clock (by Thijs, July 2021).
 - Cartoon Bomb Explosion (by Thijs, July 2021).
 - Tic Tac Toe (by Thijs, August 2021).
+- Down the Drain (by Thijs, August 2021).
 - Hidden feature: color picker (by Thijs, July 2021).
 
 And I also did add automatic following of summer/winter time (in March 2021). Possibly some or all of this will be merged into the original github project.
