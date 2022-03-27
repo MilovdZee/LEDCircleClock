@@ -4,6 +4,8 @@
 
 This https://github.com/atkaper/LEDCircleClock is a fork of the awesome project from Milo: https://github.com/MilovdZee/LEDCircleClock
 
+See also my blog post about this project: https://www.kaper.com/electronics/ledcircleclock-revisited/
+
 ## Additional features
 
 The original project had 4 effects, next to the analog clock. I (Thijs) have added some more. Here's the total effect/animation list:
@@ -66,6 +68,8 @@ Here are animated gif images of the effects:
 
 Some explanations:
 
+- "PacMan"; I made the yellow body a bit smaller than Milo's original, to make space for the red dots to be eaten.
+  And I added the animated red dots.
 - "Snake"; The snake eats all the red dots, and has a 50 percent chance of dropping a purple turd after each bite.
 - "Maze"; There are two maze designs, which can appear randomly 0..3 x 90 degrees rotated,
   or also randomly flipped over the vertical axis. This does make it look like there is more variation.
@@ -199,7 +203,8 @@ The software is written for the Arduino IDE.
 - NTP to synchronize the time
 - OTA for wireless code updates. The OTA password as set in this repo is 'KlokPassword'.
 - WEB interface to configure brightness and WIFI settings. The ip address is received through DHCP and so should be looked up in the router. Or use the Arduino IDE to find it. It will show up as a port after restarting the IDE.
-- If WIFI is not found the esp8266 becomes an open access point. Pointing a browser to http://192.168.4.1/wifi opens the WIFI configuration page.
+- If WIFI is not found the esp8266 becomes an open access point. Pointing a browser to http://192.168.4.1/wifi opens the WIFI configuration
+  page. Note: The page is protected by user "admin", and your OTA password. The initial password is "KlokPassword" until you change it.
 - At random moments an effect is shown (sparkle, pacman, scan, fire)
 
 ## Libraries
