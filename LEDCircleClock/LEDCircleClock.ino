@@ -20,6 +20,11 @@ struct tm * timeinfo;
 
 boolean otaActive = false;
 
+// The ota update and wifi settings pages are protected using the ota password (wifi page uses user "admin").
+// If someone keeps trying with the wrong password, we will lock up updates until device restart.
+#define MAX_CREDENTIAL_FAILS 6
+int adminOtaCredentialsFailCount = 0;
+
 // Used for web-page to set which effect will play next in the main loop (to manually trigger an effect)
 int triggerEffect = -1;
 
@@ -73,7 +78,7 @@ void clearStrip() {
 }
 
 void handlingDelay(int delayMillis) {
-  ArduinoOTA.handle();
+  handleOta();
   server.handleClient();
 
   // Make sure the software watchdog does not trigger
@@ -127,7 +132,11 @@ void setup() {
   strip.Show();
   WiFi.mode(WIFI_STA);
   WiFi.hostname(HOSTNAME);
-  WiFi.begin(String(ssid), String(wifiPassword));
+  if (String(wifiPassword).length() > 0) {
+    WiFi.begin(String(ssid), String(wifiPassword));
+  } else {
+    WiFi.begin(String(ssid));
+  }
   if (WiFi.waitForConnectResult() != WL_CONNECTED) {
     Serial.println("Connection Failed! Continuing...");
     strip.SetPixelColor(0, RgbColor(50, 0, 0));
@@ -162,6 +171,7 @@ void setup() {
   server.on("/effect", handleEffect);
   server.on("/color", handleColorPicker);
   server.on("/demo", handleDemoMode);
+  server.on("/toggle-pause", handleTogglePause);
   server.begin();
 
   clearStrip();
@@ -184,7 +194,7 @@ int count = 0;
 void loop() {
   if (otaActive) {
     server.handleClient();
-    ArduinoOTA.handle();
+    handleOta();
     // Skip normal drawing routines, to keep ota update more stable
     return;    
   }
@@ -211,13 +221,16 @@ void loop() {
   if (demoMode >= 0 && currentTime > previousEffectTime) {
     executeEffect(demoMode);
     previousEffectTime = time(nullptr) + 2;
-    demoMode++;
+    if (demoMode >= 0) {
+      // This "if" check >=0 is there, as another (web) thread can set the value back to a negative value.
+      demoMode++;
+    }
     if (demoMode >= getNrOfEffects()) {
       demoMode = -1;
     }
   }
 
   server.handleClient();
-  ArduinoOTA.handle();
+  handleOta();
   updateClockHands();
 }

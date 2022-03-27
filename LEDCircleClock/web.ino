@@ -24,6 +24,19 @@ void handleRoot() {
     effectLinks += "<form method='post' action='/effect'><input type='hidden' name='effect' value='" + String(i) + "'><input type='submit' value='" + String(i) + "'></form>";
   }
 
+  char pauseLabel[8];
+  char statusMessage[20];
+  if (demoMode==-2) {
+    strcpy(pauseLabel, "&#x25B6;&#xFE0F;"); // play
+    strcpy(statusMessage, "effect-pause");
+  } else if (demoMode==-1) {
+    strcpy(pauseLabel, "&#x23F8;"); // pause
+    strcpy(statusMessage, "random-effects");
+  } else {
+    strcpy(pauseLabel, "&#x23F9;"); // stop
+    strcpy(statusMessage, "demo-run");
+  }
+
   String settingsForm = "<html><head>" + String(CSS) + "</head>\
   <body>\
     <div class=\"container\">\
@@ -33,8 +46,9 @@ void handleRoot() {
         <input type=\"range\" name=\"brightness\" min=\"2\" max=\"255\" value=\"" + String(brightness) + "\"><br><br>\
         <input type=\"submit\" value=\"Submit\" style=\"position: inherit;\">\
       </form>\
-      Show Effect: <div class='effects'>" + effectLinks + "\
+      Show Effect: (mode = " + String(statusMessage)+ ")<div class='effects'>" + effectLinks + "\
         <form method='post' action='/demo'><input type='submit' value='ALL'></form>\
+        <form method='post' action='/toggle-pause'><input type='submit' value='" + String(pauseLabel) + "'></form>\
       </div>\
       <div class='wifimenudiv'><a href=\"/wifi\">network</a></div>\
       <div class='colormenudiv'><a href=\"/color\">color-picker</a></div>\
@@ -48,6 +62,8 @@ void handleRoot() {
 void handleEffect() {
   // let main loop know which effect we want to see, but return web response immediately.
   triggerEffect = server.arg("effect").toInt();
+  // disable demo mode, if it was active
+  demoMode = -1;
   server.sendHeader("Location", String("/"), true);
   server.send ( 302, "text/plain", "");
 }
@@ -59,7 +75,33 @@ void handleDemoMode() {
   server.send ( 302, "text/plain", "");
 }
 
+void handleTogglePause() {
+  if (demoMode==-2) {
+    // Re-enable random animation selection.
+    demoMode = -1;
+  } else if (demoMode==-1) {
+    // Disable random animation selection.
+    demoMode = -2;
+  } else {
+    // End demo-mode.
+    demoMode = -1;
+  }
+  server.sendHeader("Location", String("/"), true);
+  server.send ( 302, "text/plain", "");
+}
+
 void handleWifi() {
+  // First check if the user has been authenticated.
+  // You need to use "admin" as username, and the otaPassword as password.
+  if (adminOtaCredentialsFailCount>MAX_CREDENTIAL_FAILS) {
+    server.send(200, "text/html", "Too many login failures, reboot clock to try again...");
+  }
+  if (!server.authenticate("admin", otaPassword)) {
+    adminOtaCredentialsFailCount++;
+    return server.requestAuthentication(BASIC_AUTH);
+  }
+  adminOtaCredentialsFailCount=0;
+  
   if (server.method() == HTTP_POST) {
     for (uint16_t pixel = 1; pixel < PIXEL_COUNT; pixel++) {
       strip.SetPixelColor(pixel-1, RgbColor(0, 0, 0));
@@ -95,10 +137,11 @@ void handleWifi() {
         <input type=\"text\" name=\"ssid\" value=\"" + String(ssid) + "\"><br><br>\
         WiFi Password:<br>\
         <input type=\"text\" name=\"password\" value=\"" + String(wifiPassword) + "\"><br><br>\
-        OTA Password:<br>\
+        OTA/admin Password:<br>\
         <input type=\"text\" name=\"otaPassword\" value=\"" + String(otaPassword) + "\"><br><br>\
         (restart device to activate updates)<br>\
         <input type=\"submit\" value=\"Submit\" style=\"position: inherit;\">\
+        <input type=\"submit\" value=\"Cancel\" style=\"position: inherit;\" onclick=\"document.location.href='/';return false;\">\
       </form>\
     </div>\
   </body>\

@@ -8,6 +8,7 @@ void setupOTA() {
   EEPROM.get(OTA_PASSWORD_ADDR, otaPassword);
   if (String(otaPassword).length() == 0 || String(otaPassword).length() >= (sizeof(otaPassword)-1)) {
     ArduinoOTA.setPassword(PASSWORD);
+    strcpy(otaPassword, PASSWORD);
   } else {
     ArduinoOTA.setPassword(otaPassword);
   }
@@ -40,7 +41,10 @@ void setupOTA() {
   ArduinoOTA.onError([](ota_error_t error) {
     otaActive = false;
     Serial.printf("Error[%u]: ", error);
-    if (error == OTA_AUTH_ERROR) Serial.println("Auth Failed");
+    if (error == OTA_AUTH_ERROR) {
+      adminOtaCredentialsFailCount++;
+      Serial.println("Auth Failed");
+    }
     else if (error == OTA_BEGIN_ERROR) Serial.println("Begin Failed");
     else if (error == OTA_CONNECT_ERROR) Serial.println("Connect Failed");
     else if (error == OTA_RECEIVE_ERROR) Serial.println("Receive Failed");
@@ -52,4 +56,11 @@ void setupOTA() {
     delay(1000);
   });
   ArduinoOTA.begin();
+}
+
+void handleOta() {
+  // Only handle OTA, if not too many failed login attempts have been done.
+  if (adminOtaCredentialsFailCount<=MAX_CREDENTIAL_FAILS) {
+    ArduinoOTA.handle();
+  }
 }
