@@ -1,17 +1,18 @@
 # LEDCircleClock
 
-A clock with 241 RGB LEDs.
-
+## Forked for additional features
 
 This https://github.com/atkaper/LEDCircleClock is a fork of the awesome project from Milo: https://github.com/MilovdZee/LEDCircleClock
 
+## Additional features
+
 The original project had 4 effects, next to the analog clock. I (Thijs) have added some more. Here's the total effect/animation list:
 
-- Base animation: Analog clock (by Milo).
-- Sparkle (by Milo).
+- Base animation: Analog clock (by Milo, February 2021).
+- Sparkle (by Milo, February 2021).
 - PacMan (original by Milo, updated by Thijs [March 2021?] to be smaller, and eat some moving food).
-- Scan (by Milo).
-- Fire (by Milo, or he found it somewhere on the internet I think).
+- Scan (by Milo, February 2021).
+- Fire (by Milo, February 2021, or he found it somewhere on the internet I think).
 - Snake (by Thijs, July 2021).
 - Maze (by Thijs, July 2021).
 - Digital Clock (by Thijs, July 2021).
@@ -19,14 +20,114 @@ The original project had 4 effects, next to the analog clock. I (Thijs) have add
 - Tic Tac Toe (by Thijs, August 2021).
 - Down the Drain (by Thijs, August 2021).
 - Vault/CodeLock (by Thijs, August 2021).
-- Hidden feature: color picker (by Thijs, July 2021).
+- ~~Hidden~~ feature: color picker (by Thijs, July 2021).
 
-And I also did add automatic following of summer/winter time (in March 2021). Possibly some or all of this will be merged into the original github project.
-Oh, and I did some refactoring to put the effects each in a separate source file. And just now added a demo mode to play all effects, and a setting for ota password.
+Other changes:
 
-Back to Milo's descriptions:
+- Automatic following of summer/winter time (in March 2021).
+- Refactoring to put the effects each in a separate source file (July 2021).
+- Buttons to play one effect on demand (July 2021).
+- Demo mode to play all effects in a row (July/August 2021).
+- Configurable ota/admin password (July/August 2021).
+- Protection of the wifi/ota settings page (March 2022).
+- Support unprotected WiFi, by setting a blank WiFi password (March 2022).
+- Added effect play/pause/stop button (March 2022).
+
+For the wifi-settings page, use user "admin", and the ota password to get in.
+The initial ota password is "KlokPassword" if you did not set one yet.
+
+I have not yet printed the proper clock case on the 3d-printer. Mine is installed in an IKEA picture-frame
+called "LERBODA", waiting for me to do the print some day ;-)
+
+Here are animated gif images of the effects:
+
+<table>
+<tr>
+  <td><img src="images/additions/effect-0-sparkles.gif?raw=true" height=310/><br>Sparkles</td>
+  <td><img src="images/additions/effect-1-pacman.gif?raw=true" height=310/><br>PacMan</td>
+  <td><img src="images/additions/effect-2-scanner.gif?raw=true" height=310/><br>Scanner</td>
+</tr>
+<tr>
+  <td><img src="images/additions/effect-3-fire.gif?raw=true" height=310/><br>Fire</td>
+  <td><img src="images/additions/effect-4-snake.gif?raw=true" height=310/><br>Snake</td>
+  <td><img src="images/additions/effect-5-maze.gif?raw=true" height=310/><br>Maze</td>
+</tr>
+<tr>
+  <td><img src="images/additions/effect-6-digiclock.gif?raw=true" height=310/><br>DigiClock</td>
+  <td><img src="images/additions/effect-7-cartoonbomb.gif?raw=true" height=310/><br>Cartoon Bomb</td>
+  <td><img src="images/additions/effect-8-tictactoe.gif?raw=true" height=310/><br>Tic Tac Toe</td>
+</tr>
+<tr>
+  <td><img src="images/additions/effect-9-drain.gif?raw=true" height=310/><br>Down the Drain</td>
+  <td><img src="images/additions/effect-10-vault.gif?raw=true" height=310/><br>Vault / CodeLock</td>
+  <td><img src="images/additions/color-picker.jpg?raw=true" height=310/><br>Color Picker</td>
+</tr>
+</table>
+
+Some explanations:
+
+- "Snake"; The snake eats all the red dots, and has a 50 percent chance of dropping a purple turd after each bite.
+- "Maze"; There are two maze designs, which can appear randomly 0..3 x 90 degrees rotated,
+  or also randomly flipped over the vertical axis. This does make it look like there is more variation.
+- "DigiClock"; Disclaimer - Not all 7-segment digits look as good, as you can see of the 7 in "17:16" time.
+  But there is no easy way to draw 7-segment digits using led circles ;-) But most digits are readable.
+- "Tic Tac Toe"; it always plays two games in a row. One with an orange playing field, and one with a green
+  playing field. The orange one just does random moves, without any intelligence. The green one has some
+  knowledge of basic playing rules. It tries to do the winning move if possible, and otherwise tries to
+  prevent the other player from doing a winning move. For the rest it does random moves.
+- "Vault / CodeLock"; this is an actual schematic representation/animation of how a code lock works.
+  The purple dots (notches) are placed randomly on the 3 code circles, and signify the code you need to use to
+  open the vault. When turning the inner ring, the purple notches pick up the ring outside of the notch, and
+  the outside one will also start moving until you revert the rotation direction. The goal is to align the green
+  sections at the right, and the red at the left. When done, those open up, and then the "gold" pieces are taken
+  from the vault ;-)
+- "Color Picker"; This is NOT an animation. It is mainly a "debug" screen to choose suitable colors for new effects.
+  You configure two color dots (the center dot, and the 11:30 edge one). All others are "fixed" endpoints to which
+  your center color will fade. This way you can choose and mix and match your colors. The edge ones will use R/G/B
+  values of a given "max" value. Going clockwise from 12:00 the edge colors are: R, G, B, RG, RB, GB, RGB, and your
+  own custom edge dot.
+
+Here the web pages / menus:
+
+<img src="images/additions/settings.png?raw=true" width=640/>
+
+<img src="images/additions/wifi-menu.png?raw=true" width=640/>
+
+<img src="images/additions/color-picker-menu.png?raw=true" width=640/>
+
+The "Settings" page is mostly self-explanatory. Each number button corresponds with one of the effects.
+The "ALL" button will show all effects in a row (demo mode). The "pause" button has three possible states;
+The pause symbol will change mode from showing random effects to only showing the clock. This is the same
+as during the night between 22:00 and 8:00. The "play" symbol will go back to the mode of randomly showing
+effects. And finally, when you started demo mode (play ALL), you do have a "stop" button there to go back to
+the standard "random effect" mode.
+
+The "Network Settings" page is protected by your OTA/admin password to prevent abuse. When you enter a wrong
+password a couple of times, the clock will LOCK the admin functions. Both OTA (over-the-air) firmware update
+and the network settings page will be locked until you restart (powercycle) the clock.
+
+As described above, the color picker allows you to define two colored dots. The center dot values are labeled
+"cr", "cg", "cb". The edge (11:30) dot is marked "er", "eg", "eb". And the "max" is used for all other edge dots
+as value for R, G, B or combinations of those.
+
+__TODO/WishList:__
+
+- I do have another two ideas for effect designs in my head. So I'll have to implement those ;-) Let's hope the chip
+  memory is big enough to contain them.
+- The main settings screen has a "brightness" slider. This is ignored by most effects, and some do use it, but do not
+  use it for linear scaling of the brightness but instead use it as a max value. Would be nice to make it work linearly
+  for ALL effects.
+
+For so far my contributions to the LED Circle Clock...
+
+_Thijs Kaper, March 27, 2022._
 
 
+## Back to Milo's descriptions / original readme
+
+<hr>
+
+A round clock with 241 RGB LEDs.
 ## Description
 
 The clock shows the hands in diferent colors on the grid of LEDs. To make it more beautiful hands are antialiased. The brightness of the LED is calculated from the distance to the virtual pixel. I also use the milliseconds clock of the Arduino combined with the NTP clock to have a seconds hand that rotates fluently instead of ticking the seconds.
@@ -103,17 +204,9 @@ The software is written for the Arduino IDE.
 
 ## Libraries
 
-- NeoPixelBus by Makuna
-- NTPClient
+- NeoPixelBus by Makuna.
+- ~~NTPClient~~ (now using native ntp features of esp8266).
 
 The libraries can be installed under "Sketch -> Include Library -> Manage Libraries..."
 
 And additional board manager for the ESP8266: http://arduino.esp8266.com/stable/package_esp8266com_index.json. This must be set under "File->Preferences->Additional Boards Manager URLs".
-
-
-## Change Log
-
-- March 21, 2021: Use native ESP NTP timekeeping, instead of external NTP library, and make it use automatic summer/winter time switch (Thijs Kaper).
-- July/August 2021: Add some more effects, demo mode, and ota-password config (see top of readme) (Thijs Kaper).
-
-
