@@ -73,7 +73,7 @@ Some explanations:
 - "Snake"; The snake eats all the red dots, and has a 50 percent chance of dropping a purple turd after each bite.
 - "Maze"; There are two maze designs, which can appear randomly 0..3 x 90 degrees rotated,
   or also randomly flipped over the vertical axis. This does make it look like there is more variation.
-- "DigiClock"; Disclaimer - Not all 7-segment digits look as good, as you can see of the 7 in "17:16" time.
+- "DigiClock"; Disclaimer - Not all 7-segment digits look as good, as you can see from the 7 in "17:16" time.
   But there is no easy way to draw 7-segment digits using led circles ;-) But most digits are readable.
 - "Tic Tac Toe"; it always plays two games in a row. One with an orange playing field, and one with a green
   playing field. The orange one just does random moves, without any intelligence. The green one has some
@@ -86,7 +86,7 @@ Some explanations:
   sections at the right, and the red at the left. When done, those open up, and then the "gold" pieces are taken
   from the vault ;-)
 - "Color Picker"; This is NOT an animation. It is mainly a "debug" screen to choose suitable colors for new effects.
-  You configure two color dots (the center dot, and the 11:30 edge one). All others are "fixed" endpoints to which
+  You configure two color dots (the center dot, and the 10:30 edge one). All others are "fixed" endpoints to which
   your center color will fade. This way you can choose and mix and match your colors. The edge ones will use R/G/B
   values of a given "max" value. Going clockwise from 12:00 the edge colors are: R, G, B, RG, RB, GB, RGB, and your
   own custom edge dot.
@@ -111,7 +111,7 @@ password a couple of times, the clock will LOCK the admin functions. Both OTA (o
 and the network settings page will be locked until you restart (powercycle) the clock.
 
 As described above, the color picker allows you to define two colored dots. The center dot values are labeled
-"cr", "cg", "cb". The edge (11:30) dot is marked "er", "eg", "eb". And the "max" is used for all other edge dots
+"cr", "cg", "cb". The edge (10:30) dot is marked "er", "eg", "eb". And the "max" is used for all other edge dots
 as value for R, G, B or combinations of those.
 
 __TODO/WishList:__
