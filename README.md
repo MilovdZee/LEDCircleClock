@@ -60,7 +60,7 @@ Here are animated gif images of the effects:
 <tr>
   <td><img src="images/additions/effect-9-drain.gif?raw=true" height=310/><br>Down the Drain</td>
   <td><img src="images/additions/effect-10-vault.gif?raw=true" height=310/><br>Vault / CodeLock</td>
-  <td><img src="images/additions/color-picker.jpg?raw=true" height=310/><br>Color Picker</td>
+  <td><img src="images/additions/color-picker.jpg?raw=true" height=310/><br>Debug image: Color Picker</td>
 </tr>
 </table>
 
