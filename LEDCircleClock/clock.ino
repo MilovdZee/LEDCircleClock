@@ -29,10 +29,10 @@ void drawAngle(int angle, int rings, RgbColor color, boolean overwrite = false, 
 
 // This one draws a single pixel in every ring, closest to the given angle. No gradations. Always overwrite.
 void drawSimpleAngle(int angle, int rings, RgbColor color) {
-  for (int ring = 1; ring < rings; ring++) {
+  for (int ring = 0; ring < rings; ring++) {
     int ringSize = ringSizes[ring];
     int startLed = startLEDs[ring];
-    int led = startLed + int((ringSize * angle / 360) + 0.5);
+    int led = startLed + int((ringSize * (angle%360) / 360) + 0.5);
     setPixel(led, color);
   }
 }

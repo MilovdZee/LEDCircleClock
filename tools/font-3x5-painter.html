@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3x5 font drawing tool</title>
+    <style>
+        body {
+            height: 100%;
+        }
+        #container {
+            position: relative;
+            border: 2px solid grey;
+            border-radius: 8px;
+            width: 1150px;
+            height: 560px;
+            margin: auto;
+            top: 20px;
+            background-color: #fafad2;
+        }
+        #codeinput {
+            width: 300px;
+            font-size: 16px;
+        }
+        #code {
+            top: 520px;
+            left: 10px;
+            position: absolute;
+            height: 30px;
+        }
+        #box {
+            top: 10px;
+            left: 10px;
+            position: absolute;
+            width: 300px;
+            height: 500px;
+        }
+        #box div.pixel {
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            background-color: antiquewhite;
+            border: 1px solid grey;
+        }
+        #box div.pixel.on {
+            background-color: #2b27a6;
+        }
+        .bitnr {
+            text-align: center;
+            position: relative;
+            top: 40px;
+            font-size: x-small;
+        }
+        .on .bitnr {
+            color: white;
+        }
+        #info {
+            top: 10px;
+            left: 330px;
+            position: absolute;
+            width: 800px;
+        }
+        input[type="submit"] {
+            background-color: #dbd79c;
+        }
+
+        #b0 { top: 0px; left: 0px; }
+        #b1 { top: 100px; left: 0px; }
+        #b2 { top: 200px; left: 0px; }
+        #b3 { top: 300px; left: 0px; }
+        #b4 { top: 400px; left: 0px; }
+
+        #b5 { top: 0px; left: 100px; }
+        #b6 { top: 100px; left: 100px; }
+        #b7 { top: 200px; left: 100px; }
+        #b8 { top: 300px; left: 100px; }
+        #b9 { top: 400px; left: 100px; }
+
+        #b10 { top: 0px; left: 200px; }
+        #b11 { top: 100px; left: 200px; }
+        #b12 { top: 200px; left: 200px; }
+        #b13 { top: 300px; left: 200px; }
+        #b14 { top: 400px; left: 200px; }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="info">
+            <h2>3x5 font drawing tool</h2>
+            Use the matrix to the left to draw font characters. Click each cell to toggle a pixel on/off.
+            <br>
+            The bit pattern will be translated into a binary string, and a HEX code. 16 bit storage:
+            bits left to right = rows top to bottom, columns left to right (last bit always zero).
+            <br>
+            <br>
+            You can copy the value to your code. Or... also the other way around, copy back a code into
+            the input box, and then when clicking outside the input (or hit the tab key), that value will
+            be drawn in the matrix. Note: when entering a value, the code only looks for the HEX value.
+            It will ignore the binary one. So it is enough to copy in the HEX one (but you can copy all).
+            <br>
+            <br>
+            See: <a href="https://fontstruct.com/fontstructions/show/716744/3_by_5_pixel_font" target="_blank">https://fontstruct.com/fontstructions/show/716744/3_by_5_pixel_font</a> for font source.
+            <br>
+            <br>
+            <img src="3x5-font.png" width="434px;">
+            <span style="margin-left: 140px;">Thijs, May 10, 2022.</span>
+        </div>
+
+        <div id="box">
+            <div class="pixel" id="b0" onclick="toggle(0);"><div class="bitnr">15</div></div>
+            <div class="pixel" id="b1" onclick="toggle(1);"><div class="bitnr">14</div></div>
+            <div class="pixel" id="b2" onclick="toggle(2);"><div class="bitnr">13</div></div>
+            <div class="pixel" id="b3" onclick="toggle(3);"><div class="bitnr">12</div></div>
+            <div class="pixel" id="b4" onclick="toggle(4);"><div class="bitnr">11</div></div>
+            
+            <div class="pixel" id="b5" onclick="toggle(5);"><div class="bitnr">10</div></div>
+            <div class="pixel" id="b6" onclick="toggle(6);"><div class="bitnr">9</div></div>
+            <div class="pixel" id="b7" onclick="toggle(7);"><div class="bitnr">8</div></div>
+            <div class="pixel" id="b8" onclick="toggle(8);"><div class="bitnr">7</div></div>
+            <div class="pixel" id="b9" onclick="toggle(9);"><div class="bitnr">6</div></div>
+            
+            <div class="pixel" id="b10" onclick="toggle(10);"><div class="bitnr">5</div></div>
+            <div class="pixel" id="b11" onclick="toggle(11);"><div class="bitnr">4</div></div>
+            <div class="pixel" id="b12" onclick="toggle(12);"><div class="bitnr">3</div></div>
+            <div class="pixel" id="b13" onclick="toggle(13);"><div class="bitnr">2</div></div>
+            <div class="pixel" id="b14" onclick="toggle(14);"><div class="bitnr">1</div></div>
+        </div>
+
+        <div id="code">
+            <input name="codeinput" id="codeinput" value="" onblur="showData();" onfocus="this.select();">
+            <input name="clear" id="clear" type="submit" value="clear" onclick="doClear(); return false;">
+            <a href="https://github.com/atkaper/LEDCircleClock/blob/main/LEDCircleClock/effects-wordclock.ino#L61-L123" target="_blank">See effects-wordclock.ino lines 61-123 for a partial ascii set</a>
+        </div>
+    </div>
+    
+    <script>
+        var value = "0000000000000000";
+
+        function doClear() {
+            document.getElementById("codeinput").value = "0x0000";
+            showData();
+        }
+
+        function showData() {
+            var data = document.getElementById("codeinput").value.toUpperCase().replace(/.*0X/, "0X").replace(/,/,"").trim();
+            if (data.length == 6) {
+                var binary = ("0000000000000000" + parseInt(data.substring(2), 16).toString(2)).slice(-16);
+                binary = setCharAt(binary, 15, "0");
+                for (i=0;i<15;i++) {
+                    var b = document.getElementById("b"+i);
+                    if(binary.charAt(i)=="1") {
+                        b.classList.add("on");
+                    } else {
+                        b.classList.remove("on");
+                    }
+                }
+                value = binary;
+                showCode(value);
+            }
+        }
+
+        function binToHex(binString) {
+            var hexa = "0000" + parseInt(value, 2).toString(16).toUpperCase();
+            return "0x" + hexa.substr(-4);;
+        }
+
+        function setCharAt(str,index,chr) {
+            if(index > str.length-1) return str;
+            return str.substring(0,index) + chr + str.substring(index+1);
+        }
+
+        function showCode(value) {
+            document.getElementById("codeinput").value = "/* " + value + " */ " + binToHex(value) + ",";
+        }
+
+        function toggle(bit) {
+            var b = document.getElementById("b"+bit);
+            if(b.classList.contains("on")) {
+                b.classList.remove("on");
+                value = setCharAt(value, bit, "0");
+                showCode(value);
+            } else {
+                b.classList.add("on");
+                value = setCharAt(value, bit, "1");
+                showCode(value);
+            }
+        }
+        showCode(value);
+    </script>
+</body>

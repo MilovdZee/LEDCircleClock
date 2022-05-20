@@ -1,5 +1,9 @@
 
-#define NR_OF_EFFECTS 11
+#define NR_OF_EFFECTS 15
+
+const char* effectNames[] {
+  "Sparkle", "PacMan", "Scan", "Fire", "Snake", "Maze", "DigiClock", "Bomb", "TicTacToe", "Drain", "Vault", "HourGlass", "Snail", "WordClock", "MovieStart", 
+};
 
 int getNrOfEffects() {
   return NR_OF_EFFECTS;
@@ -28,6 +32,10 @@ void executeEffect(int choice) {
     case 8: ticTacToe(); break;
     case 9: drain(); break;
     case 10: vault(); break;
+    case 11: hourglass(); break;
+    case 12: snail(); break;
+    case 13: wordclock(); break;
+    case 14: moviestart(); break;
     case 100: colorPicker(); break; // 100 = hidden developer option (not shown as effect), use/trigger using http://ip-address/color
     default: break;
   }

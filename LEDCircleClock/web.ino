@@ -21,7 +21,7 @@ void handleRoot() {
 
   String effectLinks = "";
   for (int i=0; i< getNrOfEffects(); i++) {
-    effectLinks += "<form method='post' action='/effect'><input type='hidden' name='effect' value='" + String(i) + "'><input type='submit' value='" + String(i) + "'></form>";
+    effectLinks += "<form method='post' action='/effect'><input type='hidden' name='effect' value='" + String(i) + "'><input type='submit' value='" + String(effectNames[i]) + "'></form>";
   }
 
   char pauseLabel[8];

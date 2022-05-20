@@ -8,7 +8,7 @@ See also my blog post about this project: https://www.kaper.com/electronics/ledc
 
 ## Additional features
 
-The original project had 4 effects, next to the analog clock. I (Thijs) have added some more. Here's the total effect/animation list:
+The original project had 4 effects, next to the analog clock. I (Thijs) have added quite some more. Here's the total effect/animation list:
 
 - Base animation: Analog clock (by Milo, February 2021).
 - Sparkle (by Milo, February 2021).
@@ -22,6 +22,10 @@ The original project had 4 effects, next to the analog clock. I (Thijs) have add
 - Tic Tac Toe (by Thijs, August 2021).
 - Down the Drain (by Thijs, August 2021).
 - Vault/CodeLock (by Thijs, August 2021).
+- HourGlass (by Elly & Thijs, April 2022).
+- Snail (by Elly & Thijs, April 2022).
+- WordClock (by Thijs, May 2022).
+- MovieStart (by Thijs, May 2022).
 - ~~Hidden~~ feature: color picker (by Thijs, July 2021).
 
 Other changes:
@@ -34,6 +38,7 @@ Other changes:
 - Protection of the wifi/ota settings page (March 2022).
 - Support unprotected WiFi, by setting a blank WiFi password (March 2022).
 - Added effect play/pause/stop button (March 2022).
+- Changed web-gui to list effect names instead of numbers (May 2022).
 
 For the wifi-settings page, use user "admin", and the ota password to get in.
 The initial ota password is "KlokPassword" if you did not set one yet.
@@ -62,6 +67,16 @@ Here are animated gif images of the effects:
 <tr>
   <td><img src="images/additions/effect-9-drain.gif?raw=true" height=310/><br>Down the Drain</td>
   <td><img src="images/additions/effect-10-vault.gif?raw=true" height=310/><br>Vault / CodeLock</td>
+  <td><img src="images/additions/effect-11-hourglass.gif?raw=true" height=310/><br>HourGlass</td>
+</tr>
+<tr>
+  <td><img src="images/additions/effect-12-snail.gif?raw=true" height=310/><br>Snail</td>
+  <td><img src="images/additions/effect-13-wordclock.gif?raw=true" height=310/><br>WordClock</td>
+  <td><img src="images/additions/effect-14-moviestart.gif?raw=true" height=310/><br>MovieStart</td>
+</tr>
+<tr>
+  <td></td>
+  <td></td>
   <td><img src="images/additions/color-picker.jpg?raw=true" height=310/><br>Debug image: Color Picker</td>
 </tr>
 </table>
@@ -73,6 +88,8 @@ Some explanations:
 - "Snake"; The snake eats all the red dots, and has a 50 percent chance of dropping a purple turd after each bite.
 - "Maze"; There are two maze designs, which can appear randomly 0..3 x 90 degrees rotated,
   or also randomly flipped over the vertical axis. This does make it look like there is more variation.
+  The maze data array used an old "trick", it stores both the maze walls, and the "directions" on how to escape
+  from the maze. The snake (or worm?) reads those instructions to escape the maze (the snake is called Lucifer).
 - "DigiClock"; Disclaimer - Not all 7-segment digits look as good, as you can see from the 7 in "17:16" time.
   But there is no easy way to draw 7-segment digits using led circles ;-) But most digits are readable.
 - "Tic Tac Toe"; it always plays two games in a row. One with an orange playing field, and one with a green
@@ -90,6 +107,21 @@ Some explanations:
   your center color will fade. This way you can choose and mix and match your colors. The edge ones will use R/G/B
   values of a given "max" value. Going clockwise from 12:00 the edge colors are: R, G, B, RG, RB, GB, RGB, and your
   own custom edge dot.
+- "HourGlass"; I created a drawing program to not have to use paper to make drawings. I handed that program to my
+  daughter, and she drew a static image of an hourglass. I added the rotation and sand animations to it. The whole
+  animation sequence is done on the laptop, and my program could export a special animation output array to copy/paste
+  into my code. After that, I wrote code to show the animation.
+- "Snail"; Just as the HourGlass, this one was drawn by my daughter, in this case she did draw the full animation.
+  My job was only putting it in code, and I created the final "fade out" (ring by ring).
+- "WordClock"; I tried making as big of a square like dot-matrix area as possible, initially I tried 21 columns next
+  to each other, but the ones to the left and right of the middle became too unreadable (due to the circle shape), so
+  I had to make the area's smaller. So now we have two small area's for dot matrix text, at top and bottom. The rest
+  of the space I filled in a way that the image resembles either the HAL-9000 from a-space-oddysey-2001, or you can
+  think of the game "portal". The dot matrix fields show scrolling time in words, and a random quote from HAL.
+  The font I used, I did copy pixel by pixel from an internet example. See the README file in the tools folder.
+- "MovieStart"; for this one I used my drawing program to draw the static images of 9 down to 1. I modified the generated
+  animation array to set an END marker after each image, and calculated the offsets to each digit start. The circle, and
+  rotating arm which paints the background color on each passing is all in code, and not done via the animation routine.
 
 Here the web pages / menus:
 
@@ -116,15 +148,18 @@ as value for R, G, B or combinations of those.
 
 __TODO/WishList:__
 
-- I do have another two ideas for effect designs in my head. So I'll have to implement those ;-) Let's hope the chip
-  memory is big enough to contain them.
 - The main settings screen has a "brightness" slider. This is ignored by most effects, and some do use it, but do not
   use it for linear scaling of the brightness but instead use it as a max value. Would be nice to make it work linearly
   for ALL effects.
+- Perhaps allow to choose ALL effect colors via the web-gui. To tweak them to your taste.
+- Finish off the animation drawing program, and publish that for general use.
+- Make timezone configurable via the web-gui.
+- Make an automatic firmware update service, in case I ever build one of these clocks for someone else.
+- And... always try to come up with more animations ;-) (until the memory is full).
 
 For so far my contributions to the LED Circle Clock...
 
-_Thijs Kaper, March 27, 2022._
+_Thijs Kaper, May 20, 2022._
 
 
 ## Back to Milo's descriptions / original readme

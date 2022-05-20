@@ -27,7 +27,7 @@
     text-align: center;\
   }\
   .effects input { position: initial !important; width: 200px !important; float: left; margin: 4px; } \
-  .effects { width: 100%; left: auto; }\
+  .effects { width: 100%; left: auto; font-size: 30px; }\
   div.container {\
     display: inline-block;\
     width: 90%;\
@@ -64,6 +64,9 @@
     position: absolute;\
     left: 30%;\
     bottom: 20%;\
+  }\
+  .effects input[type=\"submit\"] {\
+    height: 8%;\
   }\
   .wifimenudiv {\
     position: absolute;\
