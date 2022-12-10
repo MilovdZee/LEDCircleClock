@@ -36,7 +36,7 @@ const int snail_delays[] = {
 };
 
 // The animation data (commands / data) - see animation.ino and animation.h for an explanation of this array construction.
-const uint8_t snail_animation[] = {
+const PROGMEM uint8_t snail_animation[] = {
   /* animation: elly's snail */
   
   /* load: snail_12 */

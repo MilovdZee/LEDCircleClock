@@ -42,10 +42,10 @@ void drawMarkers() {
   for (int hour = 0; hour < 12; hour++) {
     int ledNumber = startLEDs[RINGS - 1] + hour * ringSize / 12;
     RgbColor originalColor = strip.GetPixelColor(ledNumber);
-    RgbColor markerColor = RgbColor(min(brightness / 3 + originalColor.R, 255), min(brightness / 4 + originalColor.G, 255),  originalColor.B);
+    RgbColor markerColor = RgbColor(min(brightness / 5 + originalColor.R, 255), min(brightness / 5 + originalColor.G, 255),  min(brightness / 5 + originalColor.B, 255));
     strip.SetPixelColor(ledNumber, markerColor);
   }
-  setPixel(0, RgbColor(brightness / 3, brightness / 4, 0));
+  setPixel(0, RgbColor(brightness / 5, brightness / 5, brightness / 5));
 }
 
 void updateClockHands() {

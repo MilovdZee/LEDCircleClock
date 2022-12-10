@@ -24,7 +24,7 @@ const RgbColor movie_downcount_colors[] = {
 // Animation array, abused to store digits as single frame (still) animations.
 // Each frame ends with the END command, so animation stops there.
 // We calculate start offsets (by searching for END markers) to start at the required digit.
-const uint8_t movie_downcount_digits[] = {
+const PROGMEM uint8_t movie_downcount_digits[] = {
   /* load: nr_1 */
   /* command: */ SET_PIXELS | COLOR_00FFFF, /* length: */ 11, /* pixels: */ 0, 1, 5, 9, 15, 21, 29, 37, 49, 61, 77,
   /* command: */ END | ANIMATION_DATA_BIT_MASK,
@@ -69,7 +69,7 @@ void determineDigitOffsets(int movie_downcount_digits_offsets[]) {
   int digit=2;
   while(digit<=9) {
     // Find "END" indicator (it's value is chosen that it does not exist in the rest of the animation data; (END | ANIMATION_DATA_BIT_MASK)=255).
-    while(movie_downcount_digits[offset++]!=(END | ANIMATION_DATA_BIT_MASK)) { }
+    while(pgm_read_byte_near(movie_downcount_digits + (offset++))!=(END | ANIMATION_DATA_BIT_MASK)) { }
     // The offset is now PAST the END, so record it as start fo next digit
     movie_downcount_digits_offsets[(digit++)-1]=offset;
   }

@@ -27,6 +27,8 @@ The original project had 4 effects, next to the analog clock. I (Thijs) have add
 - WordClock (by Thijs, May 2022).
 - MovieStart (by Thijs, May 2022).
 - ~~Hidden~~ feature: color picker (by Thijs, July 2021).
+- WarpTunnel (by Thijs, December 2022).
+- Throbber (by Thijs, December 2022).
 
 Other changes:
 
@@ -39,6 +41,8 @@ Other changes:
 - Support unprotected WiFi, by setting a blank WiFi password (March 2022).
 - Added effect play/pause/stop button (March 2022).
 - Changed web-gui to list effect names instead of numbers (May 2022).
+- Refactored all big arrays into PROGMEM, to go from 29K free dynamic memory to 33K (December 2022).
+- Refactored the web GUI to use less dynamic memory (December 2022).
 
 For the wifi-settings page, use user "admin", and the ota password to get in.
 The initial ota password is "KlokPassword" if you did not set one yet.
@@ -75,8 +79,8 @@ Here are animated gif images of the effects:
   <td><img src="images/additions/effect-14-moviestart.gif?raw=true" height=310/><br>MovieStart</td>
 </tr>
 <tr>
-  <td></td>
-  <td></td>
+  <td><img src="images/additions/effect-15-warptunnel.gif?raw=true" height=310/><br>WarpTunnel</td>
+  <td><img src="images/additions/effect-16-throbber.gif?raw=true" height=310/><br>Throbber</td>
   <td><img src="images/additions/color-picker.jpg?raw=true" height=310/><br>Debug image: Color Picker</td>
 </tr>
 </table>

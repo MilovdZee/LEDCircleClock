@@ -19,6 +19,12 @@
 //
 // Thijs Kaper (23/7/2021)
 
+
+// Note: these two are defined in the "web.ino" file, which is compiled last, so define them here as "extern" references;
+extern const PROGMEM char page_start[];
+extern const PROGMEM char page_end[];
+
+
 int colorPickEdgeMax = 50;
 
 int colorPickCenterR = 0;
@@ -74,6 +80,7 @@ RgbColor fadedColor(RgbColor fromColor, RgbColor toColor, int percentage) {
   return RgbColor(r,g,b);
 }
 
+
 // HTTP SERVER METHOD
 void handleColorPicker() {
   if (server.method() == HTTP_POST) {
@@ -96,16 +103,25 @@ void handleColorPicker() {
     server.sendHeader("Location", showColorPickerSeconds > 0 ? "/color" : "/", true);
     server.send ( 302, "text/plain", "");
   } else {
-    String form = "<html><head><title>Color Picker</title></head><body><h3>Color Picker</h3><form method=\"post\">\
-    max: <input type=\"text\" name=\"max\" value=\"" + String(colorPickEdgeMax) + "\"><br/><br/>\
-    cr: <input type=\"text\" name=\"cr\" value=\"" + String(colorPickCenterR) + "\"> \
-    cg: <input type=\"text\" name=\"cg\" value=\"" + String(colorPickCenterG) + "\"> \
-    cb: <input type=\"text\" name=\"cb\" value=\"" + String(colorPickCenterB) + "\"><br/><br/>\
-    er: <input type=\"text\" name=\"er\" value=\"" + String(colorPickChoiceR) + "\"> \
-    eg: <input type=\"text\" name=\"eg\" value=\"" + String(colorPickChoiceG) + "\"> \
-    eb: <input type=\"text\" name=\"eb\" value=\"" + String(colorPickChoiceB) + "\"><br/><br/>\
-    <input type=\"submit\" value=\"submit\"> <input type=\"submit\" value=\"exit\" name=\"exit\">\
-    </form></body>";
-    server.send(200, "text/html", form);
+
+    server.chunkedResponseModeStart(200, "text/html");
+    server.sendContent_P(page_start);
+  
+    server.sendContent("\
+      <style>\nbody { font-size: 1.2em; }\ninput { width: 200px; }\ninput[type=\"submit\"] { position: inherit; }\n</style>\
+      <h3>Color Picker</h3>\
+      <form method=\"post\">\
+        max: <input type=\"text\" name=\"max\" value=\"" + String(colorPickEdgeMax) + "\"><br/><br/>\
+        cr: <input type=\"text\" name=\"cr\" value=\"" + String(colorPickCenterR) + "\"> \
+        cg: <input type=\"text\" name=\"cg\" value=\"" + String(colorPickCenterG) + "\"> \
+        cb: <input type=\"text\" name=\"cb\" value=\"" + String(colorPickCenterB) + "\"><br/><br/>\
+        er: <input type=\"text\" name=\"er\" value=\"" + String(colorPickChoiceR) + "\"> \
+        eg: <input type=\"text\" name=\"eg\" value=\"" + String(colorPickChoiceG) + "\"> \
+        eb: <input type=\"text\" name=\"eb\" value=\"" + String(colorPickChoiceB) + "\"><br/><br/>\
+        <input type=\"submit\" value=\"submit\"> <input type=\"submit\" value=\"exit\" name=\"exit\">\
+      </form>");
+
+    server.sendContent_P(page_end);
+    server.chunkedResponseFinalize();
   }
 }

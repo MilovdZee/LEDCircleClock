@@ -50,14 +50,14 @@ void fadeInAnimation(const uint8_t the_animation[], const RgbColor the_colors[],
 
 // The full animation is shown ONCE using this routine. This version has a fadePercent parameter to fade in the colors.
 // If a FADE percentage below 100 (0..99) is used, we ONLY show the FIRST FRAME.
-void showAnimation(const uint8_t the_animation[], const RgbColor the_colors[], const int the_delays[], int fadePercent) {
+void showAnimation(const  uint8_t the_animation[], const RgbColor the_colors[], const int the_delays[], int fadePercent) {
   // pointer in the animation data array
-  int animation_index=0;
+  const uint8_t *ptr = the_animation;
 
   boolean keepRunning = true;
   while(keepRunning) {
     // Determine command and data from the current byte.
-    uint8_t animation_command = the_animation[animation_index++];
+    uint8_t animation_command = pgm_read_byte_near(ptr++);
     uint8_t animation_data = animation_command & ANIMATION_DATA_BIT_MASK;
     animation_command = animation_command & ANIMATION_COMMAND_BIT_MASK;
 
@@ -65,10 +65,10 @@ void showAnimation(const uint8_t the_animation[], const RgbColor the_colors[], c
     switch(animation_command) {
       case SET_PIXELS: {
         // animation_data is index in color map, next byte = length, next bytes is pixel-nrs.
-        uint8_t numberOfPixels = the_animation[animation_index++];
+        uint8_t numberOfPixels = pgm_read_byte_near(ptr++);
         RgbColor color = animationColor(animation_data, the_colors, fadePercent);
         for (int p=0;p<numberOfPixels;p++) {
-          uint8_t ledNr = the_animation[animation_index++];
+          uint8_t ledNr = pgm_read_byte_near(ptr++);
           strip.SetPixelColor(ledNr, color);
           // Note/Reminder: SetPixelColor will not actually show anything. You need to execute a "WAIT"
           // command to render the end-result.
@@ -77,8 +77,8 @@ void showAnimation(const uint8_t the_animation[], const RgbColor the_colors[], c
       }
       case SET_RANGE: {
         // animation_data is index in color map, next 2 bytes indicate start and end.
-        uint8_t fromPixel = the_animation[animation_index++];
-        uint8_t toPixel = the_animation[animation_index++];
+        uint8_t fromPixel = pgm_read_byte_near(ptr++);
+        uint8_t toPixel = pgm_read_byte_near(ptr++);
         RgbColor color = animationColor(animation_data, the_colors, fadePercent);
         for (int ledNr=fromPixel;ledNr<=toPixel;ledNr++) {
           strip.SetPixelColor(ledNr, color);

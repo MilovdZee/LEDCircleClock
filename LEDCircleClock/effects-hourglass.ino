@@ -35,7 +35,7 @@ const int hourglass_delays[] = {
 };
 
 // The animation data (commands / data) - see animation.ino and animation.h for an explanation of this array construction.
-const uint8_t hourglass_animation[] = {
+const PROGMEM uint8_t hourglass_animation[] = {
   /* animation: elly's hourglass */
   
   /* load: hourglass */
@@ -365,7 +365,7 @@ const uint8_t hourglass_animation[] = {
   /* command: */ END,
 };
 
-const uint8_t hourglass_fade_in_animation[] = {
+const PROGMEM uint8_t hourglass_fade_in_animation[] = {
   /* load: hourglass_fade_19 */
   /* command: */ CLEAR_ALL | COLOR_000000,
   
@@ -485,7 +485,7 @@ const uint8_t hourglass_fade_in_animation[] = {
   /* command: */ END,
 };
 
-const uint8_t hourglass_fade_out_animation[] = {
+const PROGMEM uint8_t hourglass_fade_out_animation[] = {
   /* load: hourglass_fade_1 */
   /* command: */ SET_PIXELS | COLOR_000000, /* length: */ 2, /* pixels: */ 186, 236,
   

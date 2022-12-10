@@ -41,7 +41,7 @@
 
 // Some HAL9001 quotes, if changing the set, keep the count to match the array string count.
 #define HAL9001_QUOTE_COUNT 7
-const char* hal9001_quotes[] = {
+const PROGMEM char* hal9001_quotes[] = {
   "I'm sorry Dave, I'm afraid I can't do that ",
   "Daisy, Daisy, give me your answer do ",
   "It can only be attributable to human error ",
@@ -52,7 +52,7 @@ const char* hal9001_quotes[] = {
 };
 
 // Number-to-text data: [0]=zero..[20]=twenty, [21]=thirty, [22]=fourty, [23]=fifty.
-const char* numbers[] = {
+const PROGMEM char* numbers[] = {
   "zero", "one","two","three","four","five","six","seven","eight","nine","ten",
   "eleven","twelve","thirteen","fourteen","fifteen","sixteen","seventeen","eighteen","nineteen","twenty",
   "thirty","fourty","fifty"
@@ -60,7 +60,7 @@ const char* numbers[] = {
 
 // Font 3x5, bits left to right = rows top to bottom, columns left to right (last bit always zero).
 // Partial ascii map, starting at " " (0x20), running consecutively up to "Z" (0x5a).
-const uint16_t charset_3x5[] = {
+const PROGMEM uint16_t charset_3x5[] = {
   /*   = 0000000000000000 */ 0x0000,
   /* ! = 0000000000111010 */ 0x003A,
   /* " = 1100000000110000 */ 0xC030,
@@ -123,7 +123,7 @@ const uint16_t charset_3x5[] = {
 };
 
 // top led lane for text display: pixels top to bottom, left to right, 5 rows x 9 bars (bar by bar).
-const uint8_t top_bar[] = {
+const PROGMEM uint8_t top_bar[] = {
   /* bar-top-00: */ 237, 177, 129, 89, 57,
   /* bar-top-01: */ 238, 178, 130, 90, 58,
   /* bar-top-02: */ 239, 179, 131, 91, 59,
@@ -136,7 +136,7 @@ const uint8_t top_bar[] = {
 };
 
 // bottom led lane for text display: pixels top to bottom, right to left, 5 rows x 9 bars (bar by bar).
-const uint8_t bottom_bar[] = {
+const PROGMEM uint8_t bottom_bar[] = {
   /* bar-bottom-00: */ 53, 81, 117, 161, 215,
   /* bar-bottom-01: */ 52, 80, 116, 160, 214,
   /* bar-bottom-02: */ 51, 79, 115, 159, 213,
@@ -149,7 +149,7 @@ const uint8_t bottom_bar[] = {
 };
 
 // info for drawing the side "shields" / fillers.
-const uint8_t fillers[] {
+const PROGMEM uint8_t fillers[] {
   // startled,endled
   227,235, // ordered low/high.
   170,175,
@@ -184,7 +184,7 @@ void drawChar(char ch, int col, boolean topRow, RgbColor color) {
   if (ch > 'Z') ch = '.';
 
   // Get pixel-data by shifting the ascii-code index down by the space value (which is first char in table).
-  uint16_t pixels = charset_3x5[ch - ' '];
+  uint16_t pixels = pgm_read_word_near(charset_3x5 + ch - ' ');
 
   // Compute start pixel (may be negative, as chars scroll out of the left side).
   int pixelIndex = 5*col;
@@ -193,7 +193,7 @@ void drawChar(char ch, int col, boolean topRow, RgbColor color) {
     if (pixels & 0x8000) {
       // Only draw inside visible range.
       if ((pixelIndex>=0) && (pixelIndex<(5*9))) {
-        strip.SetPixelColor(topRow ? top_bar[pixelIndex] : bottom_bar[pixelIndex], color);
+        strip.SetPixelColor(topRow ? pgm_read_byte_near(top_bar + pixelIndex) : pgm_read_byte_near(bottom_bar + pixelIndex), color);
       }
     }
     pixelIndex++;
@@ -217,8 +217,8 @@ void drawText(char *ch, int col, boolean topRow, RgbColor color1, RgbColor color
 // Draw the "shields" / fillers. The percentage is used for fade in/out.
 void fillFillers(RgbColor color, int percentage) {
   for(int i=0;i<membersof(fillers)/2;i++) {
-    int start = fillers[i*2];
-    int end = fillers[i*2+1];
+    int start = pgm_read_byte_near(fillers + (i*2));
+    int end = pgm_read_byte_near(fillers + (i*2+1));
     int maxSteps = round((1+abs(start-end))*percentage/100);
     if (start<end) {
       for (int x=start;x<=end && (maxSteps--)>0;x++) {
@@ -269,14 +269,17 @@ char * number2word(int nr) {
     return "?";
   }
   if(nr>19 && nr%10==0) {
-    strcpy(nr_text, numbers[18+nr/10]);
+    strcpy_P(nr_text, numbers[18+nr/10]);
     return nr_text;
   }
   if(nr>20) {
-    sprintf(nr_text, "%s %s", numbers[18+int(nr/10)], numbers[nr%10]);
+    char tmp_copy_1[15], tmp_copy_2[15];
+    strcpy_P(tmp_copy_1, numbers[18+int(nr/10)]);
+    strcpy_P(tmp_copy_2, numbers[nr%10]);
+    sprintf(nr_text, "%s %s", tmp_copy_1, tmp_copy_2);
     return nr_text;
   }
-  strcpy(nr_text, numbers[nr]);
+  strcpy_P(nr_text, numbers[nr]);
   return nr_text;
 }
 
@@ -347,7 +350,7 @@ void wordclock() {
     } else {
       // Find a random quote.
       int q = random(HAL9001_QUOTE_COUNT);
-      strcpy(text, hal9001_quotes[q]);
+      strcpy_P(text, hal9001_quotes[q]);
     }
     int txtcols = strlen(text)*4;
 

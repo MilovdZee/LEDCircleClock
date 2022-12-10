@@ -12,9 +12,9 @@
 #define MAZE_SNAKE_LEN 5
 
 // Some colors
-#define MAZE_SNAKE_HEAD_COLOR RgbColor(60, 0, 0)
-#define MAZE_SNAKE_BODY_COLOR RgbColor(60, 60, 0)
-#define MAZE_WALL_COLOR RgbColor(8, 16, 32)
+#define MAZE_SNAKE_HEAD_COLOR RgbColor(10, 2, 0)
+#define MAZE_SNAKE_BODY_COLOR RgbColor(10, 10, 0)
+#define MAZE_WALL_COLOR RgbColor(2, 2, 10)
 #define MAZE_BACKGROUND_COLOR RgbColor(0, 0, 0)
 
 // A bit of timing
@@ -43,7 +43,7 @@
 // 'o' = path, breadcrumb exit route to one ring to the outside (ring+1)
 // 'i' = path, breadcrumb exit route to one ring to the inside (ring-1)
 
-const char mazeDataOne[] = {
+const PROGMEM char mazeDataOne[] = {
   /* ring 0 =  1 */
   'o',
   /* ring 1 =  8 */
@@ -67,7 +67,7 @@ const char mazeDataOne[] = {
   'o','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#','#',
 };
 
-const char mazeDataTwo[] = {
+const PROGMEM char mazeDataTwo[] = {
   /* ring 0 =  1 */
   'o',
   /* ring 1 =  8 */
@@ -220,8 +220,8 @@ char getMazeData(int mazeRotate, boolean mazeMirror, int mazeNumber, int pos) {
   // Choose between maze one and two
   char result;
   switch (mazeNumber) {
-    case 1: result = mazeDataOne[pos]; break;
-    case 2: result = mazeDataTwo[pos]; break;
+    case 1: result = pgm_read_word_near(mazeDataOne+pos); break;
+    case 2: result = pgm_read_word_near(mazeDataTwo+pos); break;
   }
   // If mirroring, we also need to correct the breadcrumbs (they need mirroring too)
   if (mazeMirror) {
