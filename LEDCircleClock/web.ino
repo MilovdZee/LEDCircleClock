@@ -49,7 +49,7 @@ const PROGMEM char page_start[] = R"rawliteral(<!DOCTYPE html>
     width: 40%;
     height: 2em;
     cursor: pointer;
-    font-size: 1em;
+    font-size: 0.8em;
     position: absolute;
     left: 30%;
     bottom: 20%;

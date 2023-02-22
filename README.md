@@ -12,7 +12,7 @@ The original project had 4 effects, next to the analog clock. I (Thijs) have add
 
 - Base animation: Analog clock (by Milo, February 2021).
 - Sparkle (by Milo, February 2021).
-- PacMan (original by Milo, updated by Thijs [March 2021?] to be smaller, and eat some moving food).
+- PacMan (original by Milo, updated by Thijs [March 2021] to be smaller, and eat some moving food), updated by Thijs [December 2022] to be faster, have powerfood, and turn around.
 - Scan (by Milo, February 2021).
 - Fire (by Milo, February 2021, or he found it somewhere on the internet I think).
 - Snake (by Thijs, July 2021).
@@ -29,6 +29,7 @@ The original project had 4 effects, next to the analog clock. I (Thijs) have add
 - ~~Hidden~~ feature: color picker (by Thijs, July 2021).
 - WarpTunnel (by Thijs, December 2022).
 - Throbber (by Thijs, December 2022).
+- Meteor Shower (by Thijs, December 2022) - although those also look quite like guppies (fish).
 
 Other changes:
 
@@ -81,7 +82,12 @@ Here are animated gif images of the effects:
 <tr>
   <td><img src="images/additions/effect-15-warptunnel.gif?raw=true" height=310/><br>WarpTunnel</td>
   <td><img src="images/additions/effect-16-throbber.gif?raw=true" height=310/><br>Throbber</td>
+  <td><img src="images/additions/effect-17-meteors.jpg?raw=true" height=310/><br>Meteor Shower</td>
+</tr>
+<tr>
   <td><img src="images/additions/color-picker.jpg?raw=true" height=310/><br>Debug image: Color Picker</td>
+  <td></td>
+  <td></td>
 </tr>
 </table>
 

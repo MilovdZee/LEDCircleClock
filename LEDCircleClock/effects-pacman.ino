@@ -1,46 +1,40 @@
 
-// Pacman, eating pallets/dots.
+// Pacman, eating pallets/dots/pills.
 //
-// Initial version by Milo - big pacman, covering full screen.
+// Revision 1, initial version by Milo - big pacman, covering full screen.
 //
-// Revision by Thijs Kaper (March 2021?) - added moving pallets/dots to eat, and made pacman
-// smaller, and using simpler line drawing routines to get dot eating working.
+// Revision 2 by Thijs Kaper (March 2021)
+// - added moving pallets/dots/pills to eat
+// - made pacman smaller
+// - use a simpler line drawing routines to get dot eating working.
+//
+// Revision 3 by Thijs Kaper (December 22, 2022)
+// - refactored drawing of pacman
+// - open mouth less wide, and munch faster to look more like real pacman
+// - added shadow food trail
+// - added power-food pill, which makes pacman turn around
+// - added pacman turn around
 
 void pacman() {
-  // Yellow beak
-  RgbColor color = RgbColor(brightness / 2 + 1, brightness / 2 + 1, 0);
-  int bites = 6;
-  int biteDelay = 16;
-  int stepSize = 3;
+  // Yellow pacman
+  RgbColor color = RgbColor(brightness / 3 + 1, brightness / 3 + 1, 0);
+  int bites = 26;
+  int flipAtBites = bites/2;
+  int biteDelay = 10;
+  int stepSize = 4;
   int pacmanFoodState = 0;
-  int speedDivider = 6;
+  #define SPEED_DIVIDER_INIT 10
+  #define POWER_FOOD_PIXEL_NR 9
 
-  strip.ClearTo(RgbColor(0, 0, 0));
-
-  // 45 degrees is always shown so just fill that always
-  // Use 2/3 of the rings to make a smaller packman, to give space to eat floating pills
-  for (int ring = 1; ring < (RINGS * 2 / 3); ring++) {
-    // Upper part of beak
-    int startLED = startLEDs[ring] + 315 * ringSizes[ring] / 360;
-    int endLED = startLEDs[ring] + ringSizes[ring] - 1;
-    for (int led = startLED; led <= endLED; led++) {
-      setPixel(led, color);
-    }
-
-    // Lower part of beak
-    startLED = startLEDs[ring];
-    endLED = startLEDs[ring] + 225 * ringSizes[ring] / 360;
-    for (int led = startLED; led <= endLED; led++) {
-      setPixel(led, color);
-    }
-  }
-
+  int speedDivider = SPEED_DIVIDER_INIT;
   while (bites-- > 0) {
-    // Close beak
-    for (int angle = 78; angle >= stepSize; angle -= stepSize) {
-      drawPacmanFood(pacmanFoodState, speedDivider);
-      drawSimpleAngle(270 + angle, (RINGS * 2 / 3), color);
-      drawSimpleAngle(285 - angle, (RINGS * 2 / 3), color);
+    boolean flip = bites < flipAtBites;
+    
+    // Close mouth
+    for (int angle = 54; angle >= stepSize; angle -= stepSize) {
+      strip.ClearTo(RgbColor(0, 0, 0));
+      drawPacmanFood(pacmanFoodState, speedDivider, flip);
+      drawPacman(angle, stepSize, color, flip);
       // turn center pixel on
       setPixel(0, color);
       strip.Show();
@@ -49,11 +43,11 @@ void pacman() {
     
     handlingDelay(20);
 
-    // Open beak
-    for (int angle = 0; angle <= 60; angle += stepSize) {
-      drawSimpleAngle(270 + angle, (RINGS * 2 / 3), RgbColor(0, 0, 0));
-      drawSimpleAngle(285 - angle, (RINGS * 2 / 3), RgbColor(0, 0, 0));
-      drawPacmanFood(pacmanFoodState, speedDivider);
+    // Open mouth
+    for (int angle = 0; angle <= 54; angle += stepSize) {
+      strip.ClearTo(RgbColor(0, 0, 0));
+      drawPacmanFood(pacmanFoodState, speedDivider, flip);
+      drawPacman(angle, stepSize, color, flip);
       // turn center pixel on
       setPixel(0, color);
       strip.Show();
@@ -64,20 +58,37 @@ void pacman() {
   }
 }
 
-void drawPacmanFood(int &pacmanFoodState, int &speedDivider) {
-  RgbColor foodColor = RgbColor(brightness / 2 + 1, 0, 0);
+void drawPacman(int angle, int stepSize, RgbColor color, boolean flip) {
+  // degrees of horizontal line, the +10 is to correct for some rounding errors to get mouth more in center
+  int baseDegrees = (flip ? 90 : 270) + 10;
+  int degrees = 360-(2*angle);
+  for (int i=0; i<=degrees; i+=stepSize) {
+    drawSimpleAngle((baseDegrees + angle + i)%360, (RINGS * 2 / 3), color);
+  }
+}
+
+void drawPacmanFood(int &pacmanFoodState, int &speedDivider, boolean flip) {
+  RgbColor foodShadowColor = RgbColor(brightness / 5 + 1, brightness / 5 + 1, brightness / 5 + 1);
+  RgbColor foodColor = RgbColor(brightness / 3 + 1, 0, 0);
+  RgbColor powerColor = RgbColor(0, 0, brightness / 1.5 + 1);
+
+  int baseQarter = flip ? 1 : 3;
+  int shadowQarter = flip ? 3 : 1;
   
   // draw dots as pacman food, they scroll to the right for each render to simulate pacman movement.
-  for (int i=RINGS; i>0; i--) {
+  for (int i=RINGS; i>3; i--) {
     int size = ringSizes[i-1];
     int start = startLEDs[i-1];
-    // Get 270 degree led nr for ring "i".
-    int led = start + (size * 3 / 4);
+    // Get 270 (or 90) degree led nr for ring "i".
+    int led = start + (size * baseQarter / 4);
+    int shadowLed = start + (size * shadowQarter / 4);
     RgbColor originalColor = strip.GetPixelColor(led);
       if ((pacmanFoodState + i) % 4 == 0) {
-        setPixel(led, foodColor);
-      } else {
-        setPixel(led, RgbColor(0, 0, 0));
+        int foodNr = int((pacmanFoodState+i)/4);
+        setPixel(led, flip ? foodShadowColor : (foodNr == POWER_FOOD_PIXEL_NR ? powerColor : (foodNr > POWER_FOOD_PIXEL_NR ? RgbColor(0,0,0) : foodColor)));
+      }
+      if ((pacmanFoodState - i) % 4 == 0) {
+        setPixel(shadowLed, foodShadowColor);
       }
   }
   // Toggle state to move pixels
@@ -86,6 +97,6 @@ void drawPacmanFood(int &pacmanFoodState, int &speedDivider) {
   }
   speedDivider--;
   if (speedDivider<0) {
-    speedDivider=6;
+    speedDivider = SPEED_DIVIDER_INIT;
   }
 }

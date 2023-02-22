@@ -32,7 +32,8 @@ void drawSimpleAngle(int angle, int rings, RgbColor color) {
   for (int ring = 0; ring < rings; ring++) {
     int ringSize = ringSizes[ring];
     int startLed = startLEDs[ring];
-    int led = startLed + int((ringSize * (angle%360) / 360) + 0.5);
+    int maxLed = startLEDs[ring] + ringSize - 1;
+    int led = min(maxLed, startLed + int((ringSize * (angle%360) / 360) + 0.5));
     setPixel(led, color);
   }
 }

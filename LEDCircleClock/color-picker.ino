@@ -73,6 +73,12 @@ void colorPickDrawAngleFade(int angle, int rings, RgbColor fromColor, RgbColor t
 // Percentage 0 will return fromColor, percentage 100 will return toColor.
 // Anything in between will return between color.
 RgbColor fadedColor(RgbColor fromColor, RgbColor toColor, int percentage) {
+  if (percentage <= 0) {
+    return fromColor;
+  }
+  if (percentage >= 100) {
+    return toColor;
+  }
   float factor = percentage/100.0;
   int r = fromColor.R + int(((toColor.R - fromColor.R) * factor) + 0.5);
   int g = fromColor.G + int(((toColor.G - fromColor.G) * factor) + 0.5);
