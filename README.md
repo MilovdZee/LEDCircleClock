@@ -82,7 +82,7 @@ Here are animated gif images of the effects:
 <tr>
   <td><img src="images/additions/effect-15-warptunnel.gif?raw=true" height=310/><br>WarpTunnel</td>
   <td><img src="images/additions/effect-16-throbber.gif?raw=true" height=310/><br>Throbber</td>
-  <td><img src="images/additions/effect-17-meteors.jpg?raw=true" height=310/><br>Meteor Shower</td>
+  <td><img src="images/additions/effect-17-meteors.gif?raw=true" height=310/><br>Meteor Shower</td>
 </tr>
 <tr>
   <td><img src="images/additions/color-picker.jpg?raw=true" height=310/><br>Debug image: Color Picker</td>
@@ -94,7 +94,7 @@ Here are animated gif images of the effects:
 Some explanations:
 
 - "PacMan"; I made the yellow body a bit smaller than Milo's original, to make space for the red dots to be eaten.
-  And I added the animated red dots.
+  And I added the animated red dots, and PacMan does turn around after eating a blue pill.
 - "Snake"; The snake eats all the red dots, and has a 50 percent chance of dropping a purple turd after each bite.
 - "Maze"; There are two maze designs, which can appear randomly 0..3 x 90 degrees rotated,
   or also randomly flipped over the vertical axis. This does make it look like there is more variation.
